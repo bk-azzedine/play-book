@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: user-service
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/users
+    username: postgres
+    password: Bakaazzedine456
+
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    password: Bakaazzedine456
+    user: postgres
+    baseline-version: 0
+    locations: classpath:migration
+    url: jdbc:postgresql://localhost:5433/users
+
+
+server:
+  port: 8081
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

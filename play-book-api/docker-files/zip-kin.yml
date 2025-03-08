@@ -1,0 +1,7 @@
+services:
+  zipkin-service:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    restart: unless-stopped
