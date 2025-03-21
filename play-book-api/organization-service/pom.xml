@@ -7,10 +7,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-service</artifactId>
+    <artifactId>organization-service</artifactId>
     <packaging>jar</packaging>
 
-    <name>user-service</name>
+    <name>organization-service</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

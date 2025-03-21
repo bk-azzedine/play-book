@@ -1,6 +1,6 @@
 package org.atlas.services;
 
-import org.atlas.Repositories.UserRepository;
+import org.atlas.repositories.UserRepository;
 import org.atlas.dtos.UserDto;
 import org.atlas.entities.User;
 import org.atlas.exceptions.Exception;

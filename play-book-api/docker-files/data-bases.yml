@@ -14,6 +14,21 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  organization_DB:
+    container_name: organizations
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Bakaazzedine456
+      POSTGRES_DB: users
+      PGDATA: /data/postgres
+    volumes:
+      - customer_postgres:/data/postgres
+    ports:
+      - "5434:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
