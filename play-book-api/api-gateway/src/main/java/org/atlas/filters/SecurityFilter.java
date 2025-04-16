@@ -9,12 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 
 @RefreshScope
@@ -24,7 +27,7 @@ public class SecurityFilter implements GlobalFilter {
     final Logger logger =
             LoggerFactory.getLogger(SecurityFilter.class);
 
-    private final RouteValidatorService routeValidatorService;//custom route validator
+    private final RouteValidatorService routeValidatorService;
     private final AuthServiceInterface authService;
 
     public SecurityFilter(RouteValidatorService routeValidatorService, AuthService authService) {
@@ -52,22 +55,48 @@ public class SecurityFilter implements GlobalFilter {
             final String token = this.authService.getAuthHeader(request);
             logger.debug("Authorization token received, validating...");
 
-            return authService.validateToken(token).flatMap(isValid -> {
-                logger.info(isValid.toString());
-                if (!isValid) {
-                    logger.warn("Invalid authorization token for request: {}", requestPath);
-                    return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
-                }
+            return authService.validateToken(token)
+                    .flatMap(isValid -> {
+                        logger.info(isValid.toString());
+                        if (!isValid) {
+                            logger.warn("Invalid authorization token for request: {}", requestPath);
+                            return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+                        }
 
-                logger.info("Authentication successful for request: {}", requestPath);
-                return chain.filter(exchange);
-            });
+                        // Instead of calling populateRequestWithHeaders directly, use the getClaims method
+                        return authService.getClaims(token)
+                                .flatMap(claims -> {
+                                    // Create a new mutated request with additional headers
+                                    ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                                            .headers(httpHeaders -> {
+                                                httpHeaders.set("email", getClaimAsString(claims.get("email")));
+                                                httpHeaders.set("organization", getClaimAsString(claims.get("organization")));
+                                            })
+                                            .build();
 
-//            this.populateRequestWithHeaders(exchange, token);
+
+                                    // Create a new exchange with the mutated request
+                                    ServerWebExchange mutatedExchange = exchange.mutate()
+                                            .request(mutatedRequest)
+                                            .build();
+
+                                    logger.info("Authentication successful for request: {}", requestPath);
+                                    return chain.filter(mutatedExchange);
+                                });
+                    });
         } else {
             logger.debug("Non-secured route accessed: {}", requestPath);
         }
         return chain.filter(exchange);
+    }
+
+
+    // Helper method to safely extract claim value as string
+    private String getClaimAsString(List<Object> claim) {
+        if (claim == null || claim.isEmpty()) {
+            return "";
+        }
+        return String.valueOf(claim.get(0));
     }
 
 
@@ -82,11 +111,4 @@ public class SecurityFilter implements GlobalFilter {
 
 
 
-//    private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
-//        Claims claims = jwtUtil.getAllClaimsFromToken(token);
-//        exchange.getRequest().mutate()
-//                .header("id", String.valueOf(claims.get("id")))
-//                .header("role", String.valueOf(claims.get("role")))
-//                .build();
-//    }
 }

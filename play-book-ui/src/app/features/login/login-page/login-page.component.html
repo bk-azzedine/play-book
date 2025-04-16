@@ -1,0 +1,15 @@
+<div class="flex h-screen">
+  <!-- Left Section: Login Form -->
+  <div class=" w-1/2 max-md:w-full flex justify-center items-center">
+    <div class="w-11/12 h-11/12 ">
+      <app-login-form (credentials)="onLogin($event)" (signUpRequest)="handleSignUp()"></app-login-form>
+    </div>
+  </div>
+
+  <!-- Right Section: Illustration -->
+  <div class= " max-md:hidden w-1/2 flex justify-center items-center">
+    <div class="w-5/6 h-5/6 ">
+      <app-login-register-illustration></app-login-register-illustration>
+    </div>
+  </div>
+</div>

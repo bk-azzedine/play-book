@@ -1,11 +1,15 @@
 package org.atlas.interfaces;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.atlas.entities.User;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 public interface UserServiceInterface {
 
 
 
-    Mono<UserDetails> findUserByEmail(String email);
+    Mono<User> findUserByEmail(String email);
+
+    Mono<Boolean> validateUser(UUID user);
 }

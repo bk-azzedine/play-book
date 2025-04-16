@@ -3,6 +3,9 @@ package org.atlas.interfaces;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
+import java.util.List;
+
 public interface AuthServiceInterface {
 
     /**
@@ -15,6 +18,8 @@ public interface AuthServiceInterface {
 
 
     String getAuthHeader(ServerHttpRequest request);
+
+    Mono<HashMap<String, List<Object>>> getClaims(String  token);
 
     boolean isAuthMissing(ServerHttpRequest request);
 }

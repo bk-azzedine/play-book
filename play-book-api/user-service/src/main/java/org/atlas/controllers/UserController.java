@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -36,13 +38,30 @@ public class UserController {
                 );
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/check/{email}")
+    public Mono<ResponseEntity<Boolean>> checkIfEmailExists(@PathVariable("email") String email) {
+        return this.userService.checkIfEmailExists(email)
+                .map(state -> ResponseEntity.status(HttpStatus.OK).body(state));
+    }
+
+
+    @GetMapping("/security/{email}")
     public Mono<ResponseEntity<User>> findUserByEmail(@PathVariable("email") String email) {
-          return  userService.findUserByEmail(email)
-                  .map(user -> ResponseEntity
-                          .status(HttpStatus.OK)
-                          .body(user)
-                  );
+        return userService.findUserByEmail(email)
+                .map(user -> ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(user)
+                );
+    }
+
+    @PostMapping("/validate/user/{userId}")
+    public Mono<ResponseEntity<Boolean>> validateUser(@PathVariable("userId") UUID userId) {
+        System.out.println(userId);
+        return userService.validateUser(userId)
+                .map(response -> ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(response)
+                );
     }
 
 

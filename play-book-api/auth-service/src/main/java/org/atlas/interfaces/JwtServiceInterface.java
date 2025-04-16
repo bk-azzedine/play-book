@@ -1,13 +1,14 @@
 package org.atlas.interfaces;
 
 import io.jsonwebtoken.Claims;
+import org.atlas.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.function.Function;
 
 public interface JwtServiceInterface {
@@ -20,16 +21,16 @@ public interface JwtServiceInterface {
 
     Mono<Boolean> validateToken(String token, UserDetails userDetails);
 
-    Boolean isTokenExpired(String token);
+    Mono<Boolean> isTokenExpired(String token);
 
     Mono<Date> extractExpiration(String token);
 
-    Mono<String> generateToken(HashMap<String, Object> claims, UserDetails userDetails);
+    Mono<String> generateToken(Mono<HashMap<String, List<Object>>> claims, User user);
+
+    Mono<String> generateToken(User user);
 
 
-    Mono<String> generateToken(HashMap<String, Object> claims, String username);
-
-    Mono<String> createToken(Map<String, Object> claims, String subject);
+    Mono<String> createToken(Mono<HashMap<String, List<Object>>> claims, User user);
 
     SecretKey getSignInKey();
 }

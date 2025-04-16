@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.atlas.entities.User;
 import org.atlas.interfaces.JwtServiceInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -47,17 +49,20 @@ public class JwtService implements JwtServiceInterface {
     @Override
     public Mono<Boolean> validateToken(String token, UserDetails userDetails) {
         return extractUsername(token)
-                .map(username -> username.equals(userDetails.getUsername()) && !isTokenExpired(token))
+                .flatMap(username -> {
+                    if (!username.equals(userDetails.getUsername())) {
+                        return Mono.just(false);
+                    }
+                    return isTokenExpired(token).map(expired -> !expired);
+                })
                 .onErrorReturn(false);
     }
 
     @Override
-    public Boolean isTokenExpired(String token) {
-        try {
-            return extractExpiration(token).block().before(new Date());
-        } catch (Exception e) {
-            return true;
-        }
+    public Mono<Boolean> isTokenExpired(String token) {
+        return extractExpiration(token)
+                .map(expiration -> expiration.before(new Date()))
+                .onErrorReturn(true);
     }
 
     @Override
@@ -66,24 +71,33 @@ public class JwtService implements JwtServiceInterface {
     }
 
     @Override
-    public Mono<String> generateToken(HashMap<String, Object> claims, UserDetails userDetails) {
-        return createToken(claims, userDetails.getUsername());
+    public Mono<String> generateToken(Mono<HashMap<String, List<Object>>> claims, User user) {
+        return createToken(claims, user);
     }
 
     @Override
-    public Mono<String> generateToken(HashMap<String, Object> claims, String username) {
-        return createToken(claims, username);
+    public Mono<String> generateToken(User user) {
+        return createToken(Mono.just(new HashMap<>()), user);
     }
 
+
     @Override
-    public Mono<String> createToken(Map<String, Object> claims, String subject) {
-        return Mono.fromCallable(() -> Jwts.builder()
-                .claims(claims)
-                .subject(subject)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(getSignInKey())
-                .compact());
+    public Mono<String> createToken(Mono<HashMap<String, List<Object>>> claims, User user) {
+        return claims.flatMap(claimsMap -> {
+            String token = Jwts.builder()
+                    .claim("activated", user.isActivated())
+                    .claims(convertClaimsForJwt(claimsMap))
+                    .subject(user.getEmail())
+                    .issuedAt(new Date())
+                    .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                    .signWith(getSignInKey())
+                    .compact();
+
+            return Mono.just(token);
+        });
+    }
+    private Map<String, Object> convertClaimsForJwt(HashMap<String, List<Object>> claims) {
+        return new HashMap<>(claims);
     }
 
     @Override

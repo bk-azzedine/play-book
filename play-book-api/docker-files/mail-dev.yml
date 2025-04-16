@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    environment:
+      MAILDEV_INCOMING_USER: 'azzedine'
+      MAILDEV_INCOMING_PASS: 'Bakaazzedine456'
+

@@ -1,6 +1,8 @@
 package org.atlas.services;
 
-import org.atlas.Repositories.UserRepository;
+import org.atlas.enums.RoutingKeys;
+import org.atlas.interfaces.UserPublishServiceInterface;
+import org.atlas.repositories.UserRepository;
 import org.atlas.dtos.UserDto;
 import org.atlas.entities.User;
 import org.atlas.exceptions.Exception;
@@ -15,70 +17,120 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.UUID;
 
-import static org.atlas.exceptions.Exceptions.EXCEPTION_01;
-import static org.atlas.exceptions.Exceptions.EXCEPTION_03;
+import static org.atlas.exceptions.Exceptions.*;
 
 @Service
 public class UserService implements UserServiceInterface {
+
     private final UserRepository userRepository;
-    final Logger logger =
-            LoggerFactory.getLogger(UserService.class);
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final PasswordEncoder passwordEncoder;
     private final AuthServiceInterface authService;
     private final ModelMapper modelMapper;
+    private final UserPublishServiceInterface userPublishService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthService authService, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthService authService, ModelMapper modelMapper, UserPublishService userPublishService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authService = authService;
         this.modelMapper = modelMapper;
+        this.userPublishService = userPublishService;
     }
 
     @Override
     public Mono<User> saveUser(SignUpRequest signUpRequest) {
+        logger.info("Attempting to save user with email: {}", signUpRequest.email());
         return userRepository.existsByEmail(signUpRequest.email())
                 .flatMap(exists -> {
                     if (exists) {
+                        logger.warn("Email already exists: {}", signUpRequest.email());
                         return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_01)));
                     }
-
                     User user = User.builder()
                             .firstName(signUpRequest.firstName())
                             .lastName(signUpRequest.lastName())
                             .email(signUpRequest.email())
+                            .isEnabled(true)
+                            .isActivated(false)
+                            .isSetUp(false)
                             .password(passwordEncoder.encode(signUpRequest.password()))
                             .build();
-
-                    return userRepository.save(user);
+                    logger.info("Saving new user: {}", user.getEmail());
+                    return userRepository.save(user)
+                            .doOnSuccess(savedUser -> logger.info("User saved successfully: {}", savedUser.getUser_id()))
+                            .doOnError(err -> logger.error("Error saving user: {}", err.getMessage()));
                 });
     }
 
     @Override
+    @Transactional
     public Mono<SignUpResponse> registerUser(SignUpRequest signUpRequest) {
-        var claims = new HashMap<String, Object>();
-
+        logger.info("Registering user: {}", signUpRequest.email());
         return saveUser(signUpRequest)
-                .flatMap(user -> {
-                    UserDto userDto = modelMapper.map(user, UserDto.class);
-                    claims.put("firstname", user.getFirstName());
-                    claims.put("lastname", user.getLastName());
+                .flatMap(user -> authService.generateActivationCode(user.getUser_id())
+                        .doOnSuccess(code -> logger.info("Activation code generated for user {}: {}", user.getUser_id(), code))
+                        .flatMap(code -> {
+                            UserDto userDto = modelMapper.map(user, UserDto.class);
 
-                    return authService.generateToken(claims, user.getEmail())
-                            .map(token -> new SignUpResponse(userDto, token));
-                });
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("activationCode", code);
+                            map.put("to", user.getEmail());
+                            map.put("subject", user.getLastName());
+
+                            logger.info("Publishing activation message to broker for user: {}", user.getEmail());
+                            boolean published = userPublishService.publishMessage("data-exchange", RoutingKeys.USER_ACTIVATE_ACCOUNT.getValue(), map);
+
+                            if (!published) {
+                                logger.error("Failed to publish activation message for user: {}", user.getEmail());
+                                return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_02)));
+                            }
+
+                            return authService.generateToken(userDto)
+                                    .doOnSuccess(token -> logger.info("Token generated for user: {}", user.getEmail()))
+                                    .map(token -> {
+                                        logger.info("User registration completed for: {}", user.getEmail());
+                                        return new SignUpResponse(userDto, token);
+                                    });
+                        })
+                        .doOnError(err -> logger.error("Error during activation/token generation for user {}: {}", user.getEmail(), err.getMessage()))
+                );
     }
 
     @Override
     public Mono<User> findUserByEmail(String email) {
         logger.info("Fetching user with email: {}", email);
         return userRepository.findUserByEmail(email)
-                .switchIfEmpty(Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_03))));
+                .switchIfEmpty(Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_03))))
+                .doOnSuccess(user -> logger.info("User found: {}", user.getEmail()))
+                .doOnError(err -> logger.error("User not found or error occurred: {}", err.getMessage()));
     }
 
+    @Override
+    public Mono<Boolean> checkIfEmailExists(String email) {
+        logger.info("Checking if email exists: {}", email);
+        return userRepository.existsByEmail(email)
+                .doOnSuccess(exists -> logger.info("Email exists: {} - {}", email, exists))
+                .doOnError(err -> logger.error("Error checking email existence: {}", err.getMessage()));
+    }
 
+    @Override
+    public Mono<Boolean> validateUser(UUID userId) {
+        logger.info("Validating user with ID: {}", userId);
+        return userRepository.findById(userId)
+                .doOnSuccess(user -> logger.info("User found for validation: {}", user.getEmail()))
+                .flatMap(user -> {
+                    user.setActivated(true);
+                    return userRepository.save(user)
+                            .doOnSuccess(updatedUser -> logger.info("User activated: {}", updatedUser.getEmail()))
+                            .map(savedUser -> true);
+                })
+                .doOnError(err -> logger.error("Error validating user {}: {}", userId, err.getMessage()));
+    }
 }

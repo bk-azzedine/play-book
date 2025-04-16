@@ -16,7 +16,7 @@ public enum ExceptionType {
     SERVICE_UNAVAILABLE,
     INTERNAL_SERVER_ERROR,
 
-    GATE_WAY_TIMEOUT;
+    GATEWAY_TIMEOUT;
 
     private ExceptionType() {
     }

@@ -1,23 +1,25 @@
 server:
   port: 8082
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    template:
+      exchange: data-exchange
   application:
     name: auth-service
-eureka:
-  client:
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+  cloud:
+    config:
+      uri: http://localhost:8888
+  config:
+    import: optional:configserver:http://localhost:8888
+
 jwt:
   secret-key: VGhpc1NIaXRJc1RoZVNjcmV0S2V5Rm9yV2hhdGV2ZXI=
   expiration-time: 864_000_000
 
 
-logging:
-  level:
-    root: INFO
-    org.springframework.web: DEBUG
-    org.atlas: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
 

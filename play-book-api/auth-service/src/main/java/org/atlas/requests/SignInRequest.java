@@ -5,6 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-public record SignInRequest( String username, String password) {
+public record SignInRequest( String email, String password) {
 
 }

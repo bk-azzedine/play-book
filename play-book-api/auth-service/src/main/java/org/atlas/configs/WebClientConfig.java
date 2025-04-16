@@ -10,9 +10,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    public WebClient authWebClient() {
+    public WebClient userWebClient() {
         return WebClient.builder()
                 .baseUrl("http://localhost:8081/user/")
+                .build();
+    }
+    @Bean
+    public WebClient organizationWebClient() {
+        return WebClient.builder()
+                .baseUrl("http://localhost:8083/org/")
                 .build();
     }
 }

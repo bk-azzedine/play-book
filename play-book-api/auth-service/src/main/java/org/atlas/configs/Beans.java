@@ -22,4 +22,5 @@ public class Beans {
 
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
+
 }
