@@ -1,0 +1,8 @@
+services:
+  rabbit_MQ:
+    container_name: rabbit
+    image: rabbitmq:4.0-rc-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
