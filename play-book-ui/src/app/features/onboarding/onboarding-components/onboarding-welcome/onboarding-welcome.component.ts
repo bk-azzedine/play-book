@@ -5,6 +5,8 @@ import {HlmButtonDirective} from '@spartan-ng/ui-button-helm';
 import {HlmProgressDirective, HlmProgressIndicatorDirective} from '@spartan-ng/ui-progress-helm';
 import {ProgressBarComponent} from '../../shared/progress-bar/progress-bar.component';
 import {CommService} from '../../../../core/services/comm/comm.service';
+import {Store} from '@ngrx/store';
+import {Navigate} from '../../../../store/actions/router.actions';
 
 @Component({
   selector: 'app-onboarding-welcome',
@@ -17,9 +19,10 @@ import {CommService} from '../../../../core/services/comm/comm.service';
 })
 export class OnboardingWelcomeComponent  {
    commService = inject(CommService);
+   store = inject(Store);
 
 
   onSubmit(){
-    this.commService.setCom({messageType: 'Navigation', message:'onboarding/company'});
+    this.store.dispatch(Navigate({path:'onboarding/company'}));
   }
 }

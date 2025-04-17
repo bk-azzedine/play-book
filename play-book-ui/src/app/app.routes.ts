@@ -19,7 +19,7 @@ import {
 } from './features/onboarding/onboarding-components/onboarding-teams/onboarding-teams.component';
 import {
   OnboardingTeamsInviteComponent
-} from './features/onboarding/onboarding-components/teams-invite/onboarding-teams-invite.component';
+} from './features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component';
 
 export const routes: Routes = [
   {path: 'login', component: LoginPageComponent},

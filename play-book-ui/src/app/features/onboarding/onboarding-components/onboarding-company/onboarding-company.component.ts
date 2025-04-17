@@ -10,6 +10,8 @@ import {HlmButtonDirective} from '@spartan-ng/ui-button-helm';
 import {NgIf} from '@angular/common';
 import {Company} from '../../../../store/models/company.model';
 import {CommService} from '../../../../core/services/comm/comm.service';
+import {Store} from '@ngrx/store';
+import {RegisterCompany} from '../../../../store/actions/company.actions';
 
 @Component({
   selector: 'app-onboarding-company',
@@ -31,6 +33,7 @@ import {CommService} from '../../../../core/services/comm/comm.service';
 export class OnboardingCompanyComponent {
   formBuilder = inject(FormBuilder);
   commService = inject(CommService);
+  store = inject(Store);
 
   companyForm = this.formBuilder.group({
     name: new FormControl(''),
@@ -41,10 +44,7 @@ export class OnboardingCompanyComponent {
     if (this.companyForm.valid) {
     }
     const {name, field} = this.companyForm.value;
-    this.commService.setCom({
-      messageType: 'Company',
-      message: {name, field} as Company
-    })
+    this.store.dispatch(RegisterCompany({company: {name, field} as Company}));
   }
 
 
@@ -53,9 +53,6 @@ export class OnboardingCompanyComponent {
       name: 'Default',
       field: 'DEFAULT',
     }
-    this.commService.setCom({
-      messageType: 'Company',
-      message: company
-    })
+    this.store.dispatch(RegisterCompany({company: company}));
   }
 }

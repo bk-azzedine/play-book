@@ -24,9 +24,8 @@
               <hlm-select-trigger class="w-full h-full bg-background  border-black ">
                 <hlm-select-value class="font-medium" />
               </hlm-select-trigger>
-              <hlm-select-content class="z-50" *ngFor=" let team of teams; index as i">
-                <hlm-option value="team.">{{team.}}</hlm-option>
-
+              <hlm-select-content class="z-50">
+                <hlm-option *ngFor="let team of teams" [value]="team.name">{{ team.name }}</hlm-option>
               </hlm-select-content>
             </brn-select>
           </div>

@@ -10,6 +10,12 @@ import {HlmButtonDirective} from '@spartan-ng/ui-button-helm';
 import {CommService} from '../../../../core/services/comm/comm.service';
 import {Company} from '../../../../store/models/company.model';
 import {Team} from '../../../../store/models/team.model';
+import {Store} from '@ngrx/store';
+import {CreateTeam} from '../../../../store/actions/team.actions';
+import {Navigate} from '../../../../store/actions/router.actions';
+import {selectCompanyId} from '../../../../store/selectors/company.selector';
+import {take} from 'rxjs/operators';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-onboarding-teams',
@@ -27,6 +33,7 @@ import {Team} from '../../../../store/models/team.model';
 })
 export class OnboardingTeamsComponent {
   formBuilder = inject(FormBuilder);
+  store = inject(Store);
   commService = inject(CommService);
 
   teamsForm = this.formBuilder.group({
@@ -40,23 +47,26 @@ export class OnboardingTeamsComponent {
       name: 'Default',
       organizationId: ''
     }
-    this.commService.setCom({
-      messageType: 'Team',
-      message: team
-    })
+    this.store.dispatch(CreateTeam({team: team}));
   }
 
   onCreateTeam() {
     if (this.teamsForm.valid) {
+      const name = this.teamsForm.controls['name'].value;
+      this.store.select(selectCompanyId).pipe(
+        take(1),
+        map(companyId => {
+          const team : Team = {
+            name : name as string,
+            organizationId: companyId as string,
+          }
+          this.store.dispatch(CreateTeam({team: team}));
+        })
+      ).subscribe();
     }
-    const {name} = this.teamsForm.value;
-    this.commService.setCom({
-      messageType: 'Team',
-      message: {name} as Team
-    })
   }
 
   onContinueTeam() {
-      this.commService.setCom({messageType: 'Navigation', message:'onboarding/teams/invite'});
+     this.store.dispatch(Navigate({path:'onboarding/teams/invite'}));
   }
 }
