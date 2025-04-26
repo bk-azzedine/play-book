@@ -1,6 +1,6 @@
 package org.atlas.services;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,7 +10,8 @@ public class RouteValidatorService {
     public static final List<String> openApiEndpoints = List.of(
             "/user/register",
             "/user/check",
-            "/auth/authenticate"
+            "/auth/authenticate",
+            "/auth/refresh-token"
     );
     public Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints

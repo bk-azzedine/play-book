@@ -1,6 +1,7 @@
 package org.atlas.interfaces;
 
 import io.jsonwebtoken.Claims;
+import org.atlas.entities.Token;
 import org.atlas.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import reactor.core.publisher.Mono;
@@ -25,12 +26,18 @@ public interface JwtServiceInterface {
 
     Mono<Date> extractExpiration(String token);
 
-    Mono<String> generateToken(Mono<HashMap<String, List<Object>>> claims, User user);
+    Mono<HashMap<String, String>>  generateTokens(Mono<HashMap<String, List<Object>>> claims, User user);
 
-    Mono<String> generateToken(User user);
+    Mono<HashMap<String, String>> generateTokens(User user);
 
 
-    Mono<String> createToken(Mono<HashMap<String, List<Object>>> claims, User user);
+    Mono<Token> createAccessToken(Mono<HashMap<String, List<Object>>> claims, User user);
+
+    Mono<Token> createRefreshToken( User user);
 
     SecretKey getSignInKey();
+
+    Mono<Token> getToken(String token);
+
+    Mono<String> generateAccess(HashMap<String, List<Object>> claims, User user);
 }

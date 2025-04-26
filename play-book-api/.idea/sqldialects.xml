@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/88387fad-3dcc-4f9d-919f-8ea49288ed56/console.js" dialect="MongoDB" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/fbacd1aa-cc81-464f-a3ac-bfcfc3cacbd6/console.js" dialect="MongoDB" />
     <file url="file://$PROJECT_DIR$/organization-service/src/main/resources/migration/V1__ORGANIZATIONS__TABLE.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/organization-service/src/main/resources/migration/V4__TEAM_MEMBERS__TABLE.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/organization-service/src/main/resources/migration/V5__SPACE_MEMBERS_TABLE.sql" dialect="PostgreSQL" />

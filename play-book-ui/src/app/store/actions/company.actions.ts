@@ -19,3 +19,4 @@ export const RegisterFailure = createAction(
   CompanyActionTypes.RegisterFailure,
   props<{ error: any }>()
 );
+

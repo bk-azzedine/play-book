@@ -1,7 +1,7 @@
 package org.atlas.services;
 
 import org.atlas.entities.Organization;
-import org.atlas.enums.OrganizationField;
+
 import org.atlas.interfaces.CompanyServiceInterface;
 import org.atlas.interfaces.UserServiceInterface;
 import org.atlas.repositories.OrganizationRepository;

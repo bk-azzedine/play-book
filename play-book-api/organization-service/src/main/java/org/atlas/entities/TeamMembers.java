@@ -24,6 +24,7 @@ public class TeamMembers {
     private UUID teamId;
     @Column("user_id")
     private UUID userId;
+
     private TeamRole role;
 
 

@@ -13,8 +13,16 @@ export class HttpService {
   get<T>(url: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${url}`);
   }
-  post<T>(url: string, body: any): Observable<HttpResponse<T>> {
-    return this.http.post<T>(`${this.baseUrl}/${url}`, body , { observe: 'response'} );
+  post<T>(url: string, body: any, options?: any): Observable<HttpResponse<T>> {
+    const mergedOptions: {
+      observe: 'response';
+      [key: string]: any;
+    } = {
+      observe: 'response',
+      ...options
+    };
+
+    return this.http.post<T>(`${this.baseUrl}/${url}`, body, mergedOptions);
   }
 
   put<T>(url: string, body: any): Observable<T> {

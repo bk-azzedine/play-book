@@ -1,4 +1,4 @@
-import {Component, inject, output} from '@angular/core';
+import {Component, inject, OnInit, output} from '@angular/core';
 import {ProgressBarComponent} from "../../shared/progress-bar/progress-bar.component";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {BrnSelectImports} from '@spartan-ng/brain/select';
@@ -11,7 +11,11 @@ import {NgIf} from '@angular/common';
 import {Company} from '../../../../store/models/company.model';
 import {CommService} from '../../../../core/services/comm/comm.service';
 import {Store} from '@ngrx/store';
-import {RegisterCompany} from '../../../../store/actions/company.actions';
+import {RegisterCompany, RegisterSuccess} from '../../../../store/actions/company.actions';
+import {HlmToasterComponent} from '@spartan-ng/ui-sonner-helm';
+import {Actions, ofType} from '@ngrx/effects';
+import {Subject, takeUntil} from 'rxjs';
+import {toast} from 'ngx-sonner';
 
 @Component({
   selector: 'app-onboarding-company',
@@ -26,14 +30,17 @@ import {RegisterCompany} from '../../../../store/actions/company.actions';
     HlmLabelDirective,
     HlmButtonDirective,
     NgIf,
+    HlmToasterComponent,
   ],
   templateUrl: './onboarding-company.component.html',
   styleUrl: './onboarding-company.component.css'
 })
-export class OnboardingCompanyComponent {
+export class OnboardingCompanyComponent  implements OnInit {
   formBuilder = inject(FormBuilder);
   commService = inject(CommService);
   store = inject(Store);
+  actions$ = inject(Actions);
+  private destroy$ = new Subject<void>();
 
   companyForm = this.formBuilder.group({
     name: new FormControl(''),
@@ -54,5 +61,26 @@ export class OnboardingCompanyComponent {
       field: 'DEFAULT',
     }
     this.store.dispatch(RegisterCompany({company: company}));
+  }
+  ngOnInit() {
+
+    this.actions$.pipe(
+      ofType(RegisterSuccess),
+      takeUntil(this.destroy$)
+    ).subscribe(action => {
+
+      toast('Company has been registered', {
+        description: `${action.company.name} was successfully registered`,
+        action: {
+          label: 'View Details',
+          onClick: () => console.log('View company details')
+        }
+      });
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

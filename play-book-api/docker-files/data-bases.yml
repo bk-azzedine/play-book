@@ -14,6 +14,19 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  document_DB:
+    container_name: documents
+    image: mongodb/mongodb-community-server:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=Bakaazzedine456
+    volumes:
+      - document-mango:/data/mango
+    ports:
+      - "27017:27017"
+    networks:
+      - mango
+    restart: unless-stopped
   auth_DB:
     container_name: auth
     image: postgres
@@ -62,9 +75,12 @@ services:
 networks:
   postgres:
     driver: bridge
+  mango:
+    driver: bridge
 
 volumes:
   organization_postgres:
   user_postgres:
   auth_postgres:
+  document-mango:
   pgadmin:

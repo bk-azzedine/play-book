@@ -3,49 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Activation</title>
+    <title>Your PlayBook Activation Code</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #F8F7FF;
+            color: #0D0A14;
+            line-height: 1.6;
         }
-        .container {
+        .email-container {
             max-width: 600px;
-            margin: 10px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .activation-code {
-            font-size: 36px;
-            text-align: center;
+        .email-header {
+            background-color: #000000;
+            padding: 25px 30px;
+            text-align: left;
+        }
+        .logo {
+            color: #FFFFFF;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .email-body {
+            padding: 35px 30px;
+        }
+        h1 {
+            color: #000000;
+            margin-top: 0;
+            font-size: 24px;
             margin-bottom: 20px;
         }
-        .activation-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
+        .greeting {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 25px;
         }
-        .activation-link a {
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .code-container {
+            margin: 35px 0;
+            text-align: center;
+            padding: 10px;
+        }
+        .activation-code-label {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 10px;
+        }
+        .activation-code {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
+            font-size: 36px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #000000;
+            background-color: #F8F7FF;
+            padding: 20px 30px;
+            border-radius: 8px;
+            border: 2px dashed #8A00C4;
+            min-width: 200px;
+        }
+        .instructions {
+            background-color: #F8F7FF;
+            border-left: 4px solid #8A00C4;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .instructions h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #000000;
+        }
+        .instructions ol {
+            margin: 15px 0 0 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        .help-text {
+            margin-top: 30px;
+            font-size: 15px;
+            color: #666666;
+            border-top: 1px solid #F8F7FF;
+            padding-top: 20px;
+        }
+        .support {
+            margin-top: 25px;
+            font-size: 15px;
+        }
+        .support a {
+            color: #8A00C4;
             text-decoration: none;
-            border-radius: 5px;
+            font-weight: 500;
+        }
+        .email-footer {
+            background-color: #F8F7FF;
+            padding: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #000000;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Account Activation</h1>
-    <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
-    <p>Thank you for signing up! Please use the following activation code to activate your account:</p>
-    <div class="activation-code"><span th:text="${activationCode}"></span></div>
+<div class="email-container">
+    <div class="email-header">
+        <div class="logo">PlayBook</div>
+    </div>
 
+    <div class="email-body">
+        <h1>Welcome to PlayBook!</h1>
+        <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
+        <p>Thank you for creating a PlayBook account. To get started, please use your activation code below:</p>
+
+        <div class="code-container">
+            <span class="activation-code-label">Your Activation Code</span>
+            <div class="activation-code"><span th:text="${activationCode}"></span></div>
+        </div>
+
+
+
+        <p>This code will expire in 5 minutes for security reasons. If you need a new code, you can request one from the login page.</p>
+
+        <p class="help-text">If you did not create an account with PlayBook, please disregard this email.</p>
+
+        <p class="support">Need help? Contact our support team at <a href="mailto:support@playbook.com">support@playbook.com</a></p>
+    </div>
+
+    <div class="email-footer">
+        <div class="social-links">
+            <a href="#">Twitter</a> •
+            <a href="#">LinkedIn</a> •
+            <a href="#">Instagram</a>
+        </div>
+        <p>&copy; 2025 PlayBook. All rights reserved.</p>
+        <p>123 Tech Street, Suite 100, San Francisco, CA 94103</p>
+    </div>
 </div>
 </body>
 </html>

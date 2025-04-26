@@ -39,6 +39,21 @@
       ],
       "@spartan-ng/ui-select-helm": [
         ".\\src/assets/libs/ui-select-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-sonner-helm": [
+        ".\\src/assets/libs/ui-sonner-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-avatar-helm": [
+        ".\\src/assets/libs/ui-avatar-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-menu-helm": [
+        ".\\src/assets/libs/ui-menu-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-card-helm": [
+        ".\\src/assets/libs/ui-card-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-badge-helm": [
+        ".\\src/assets/libs/ui-badge-helm/src/index.ts"
       ]
     }
   },

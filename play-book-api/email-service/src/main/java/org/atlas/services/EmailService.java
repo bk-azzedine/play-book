@@ -28,7 +28,7 @@ public class EmailService implements EmailServiceInterface {
     }
 
     @Override
-    public void sendEmail(String to,
+    public void sendActivationEmail(String to,
                           String username,
                           Template templateEnum,
                           String activationCode,
@@ -52,4 +52,29 @@ public class EmailService implements EmailServiceInterface {
         mailSender.send(mimeMessage);
 
     }
+    @Override
+    public void sendInviteEmail(
+            String to,
+            Template templateEnum,
+            String inviteToken,
+            String teamName,
+            String orgName
+    ) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, UTF_8.name());
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("inviteToken", inviteToken);
+        properties.put("teamName", teamName);
+        properties.put("orgName", orgName);
+        Context context = new Context();
+        context.setVariables(properties);
+        helper.setFrom("support@playbook.com");
+        helper.setTo(to);
+        String template = springTemplateEngine.process(templateEnum.getValue(), context);
+
+        helper.setText(template, true);
+
+        mailSender.send(mimeMessage);
+    }
+
 }

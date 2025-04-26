@@ -29,6 +29,13 @@ export class RouterEffects {
       ),
     { dispatch: false }
   );
+  login$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(AuthActionTypes.LoginSuccess),
+        tap(action => this.router.navigate(['home'])),
+      ),
+    { dispatch: false }
+  );
 
   navigateTeams$ = createEffect(() =>
       this.actions$.pipe(

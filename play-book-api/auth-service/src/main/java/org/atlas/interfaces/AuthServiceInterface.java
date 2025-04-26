@@ -7,10 +7,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface AuthServiceInterface {
-    Mono<String> generateToken(User user);
+    Mono<HashMap<String, String>> generateToken(User user);
 
     Mono<SignInResponse> authenticate(SignInRequest request);
 
@@ -20,4 +21,5 @@ public interface AuthServiceInterface {
 
     Mono<HashMap<String, List<?>>> getUserClaims(String token);
 
+  Mono<String> generateAccessFromRefresh(String refreshToken);
 }

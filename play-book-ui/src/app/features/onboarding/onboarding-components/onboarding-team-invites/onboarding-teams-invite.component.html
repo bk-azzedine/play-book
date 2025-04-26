@@ -1,8 +1,5 @@
 <div class="relative min-h-screen flex flex-col">
-  <form
-
-    class="flex flex-1 flex-col items-center justify-center space-y-6 pb-14 max-w-md mx-auto w-full"
-  >
+  <form [formGroup]="teamInvites" class="flex flex-1 flex-col items-center justify-center space-y-6 pb-14 max-w-md mx-auto w-full">
     <div class="text-center">
       <h1 class="text-xl font-bold mb-1">Invite your team leads</h1>
       <span>Invite your team leads to manage your teams.</span>
@@ -17,15 +14,17 @@
               class="w-full border border-black relative z-10"
               type="text"
               placeholder="Email"
+              formControlName="email"
             />
             <brn-select
               class="absolute bottom-1 flex justify-center right-3 h-8  bg-background z-20 "
+              [(value)]="selectedTeam"
             >
               <hlm-select-trigger class="w-full h-full bg-background  border-black ">
                 <hlm-select-value class="font-medium" />
               </hlm-select-trigger>
               <hlm-select-content class="z-50">
-                <hlm-option *ngFor="let team of teams" [value]="team.name">{{ team.name }}</hlm-option>
+                <hlm-option *ngFor="let team of teams" [value]="team" >{{ team.name }}</hlm-option>
               </hlm-select-content>
             </brn-select>
           </div>
@@ -36,13 +35,24 @@
     </div>
 
     <div class="flex flex-col space-y-4 w-full">
+        <div class="w-full">
+          <button
+            hlmBtn
+            class="hover:bg-accent hover:text-accent-foreground w-full"
+            type="submit"
+            (click)=" onInvite()"
+          >
+          Invite
+          </button>
+        </div>
       <div class="w-full">
         <button
           hlmBtn
-          class="hover:bg-accent hover:text-accent-foreground w-full"
+          class="hover:bg-black hover:text-primary-foreground bg-black w-full"
           type="submit"
+          (click)="onContinue()"
         >
-          Create Team
+          Continue
         </button>
       </div>
       <div class="w-full">
@@ -51,6 +61,7 @@
           class="w-full"
           type="submit"
           variant="link"
+          (click)="onContinue()"
         >
           Skip
         </button>

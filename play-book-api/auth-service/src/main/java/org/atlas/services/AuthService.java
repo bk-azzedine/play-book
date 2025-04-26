@@ -23,11 +23,8 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.atlas.exceptions.Exceptions.EXCEPTION_02;
 import static org.atlas.exceptions.Exceptions.EXCEPTION_04;
@@ -39,6 +36,7 @@ public class AuthService  implements AuthServiceInterface {
     private final JwtServiceInterface jwtService;
     private final ReactiveAuthenticationManager authenticationManager;
     private final WebClient organizationWebClient;
+
     final Logger logger =
             LoggerFactory.getLogger(AuthService.class);
 
@@ -56,18 +54,10 @@ public class AuthService  implements AuthServiceInterface {
     }
 
 
-//    @Override
-//    public Mono<String> generateToken(Map<String,Object> tokenGenerationRequest) {
-//        @SuppressWarnings("unchecked")
-//        HashMap<String, Object> claims = (HashMap<String, Object>) tokenGenerationRequest.get("claims");
-//        String username = (String) tokenGenerationRequest.get("username");
-//        return jwtService.generateToken(claims,username);
-//    }
-
 
     @Override
-    public Mono<String> generateToken(User user) {
-        return jwtService.generateToken(user).flatMap(Mono::just);
+    public Mono<HashMap<String, String>>  generateToken(User user) {
+        return jwtService.generateTokens(user).flatMap(Mono::just);
     }
 
     @Override
@@ -86,8 +76,11 @@ public class AuthService  implements AuthServiceInterface {
                     var user = (User) auth.getPrincipal();
                     var claims = this.getUserClaims(user.getUser_id());
 
-                    return jwtService.generateToken(claims, user)
-                            .map(SignInResponse::new);
+                    return jwtService.generateTokens(claims, user).map(
+                            res ->
+                                    new SignInResponse(res.get("access"),res.get("refresh") )
+                    );
+
                 });
     }
 
@@ -95,25 +88,38 @@ public class AuthService  implements AuthServiceInterface {
     public Mono<Boolean> validateToken(String token) {
         logger.info("Starting token validation for token: {}", token);
 
-        return jwtService.extractUsername(token)
-                .doOnSubscribe(subscription -> logger.info("Extracting username from token"))
-                .flatMap(username -> {
-                    logger.info("Username extracted: {}", username);
-                    return customUserServiceDetails.findByUsername(username)
-                            .doOnSubscribe(sub -> logger.info("Fetching user details for username: {}", username))
-                            .flatMap(userDetails -> {
-                                logger.info("User details found: {}", userDetails);
-                                return jwtService.validateToken(token, userDetails)
-                                        .doOnSubscribe(sub2 -> logger.info("Validating token with user details"))
-                                        .doOnSuccess(valid -> logger.info("Token validation result: {}", valid))
-                                        .defaultIfEmpty(false)
-                                        .doOnError(error -> logger.error("Error during token validation: {}", error.getMessage()));
-                            })
-                            .defaultIfEmpty(false)
-                            .doOnError(error -> logger.error("User not found for username: {}", username));
+        // First check if token exists in the database
+        return jwtService.getToken(token)
+                .doOnSubscribe(subscription -> logger.info("Fetching token from db"))
+                .flatMap(tokenEntity -> {
+                    // If token exists in DB and is not expired, proceed with JWT validation
+                    if (tokenEntity.getExpires().isAfter(LocalDateTime.now()) && tokenEntity.is_valid()) {
+                        logger.info("Token found in database and not expired");
+
+                        return jwtService.extractUsername(token)
+                                .doOnSubscribe(subscription -> logger.info("Extracting username from token"))
+                                .flatMap(username -> {
+                                    logger.info("Username extracted: {}", username);
+                                    return customUserServiceDetails.findByUsername(username)
+                                            .doOnSubscribe(sub -> logger.info("Fetching user details for username: {}", username))
+                                            .flatMap(userDetails -> {
+                                                logger.info("User details found: {}", userDetails);
+                                                return jwtService.validateToken(token, userDetails)
+                                                        .doOnSubscribe(sub2 -> logger.info("Validating token with user details"))
+                                                        .doOnSuccess(valid -> logger.info("Token validation result: {}", valid));
+                                            })
+                                            .defaultIfEmpty(false);
+                                });
+                    } else {
+                        logger.info("Token expired or invalid in database");
+                        return Mono.just(false);
+                    }
                 })
-                .doOnError(error -> logger.error("Error extracting username from token: {}", error.getMessage()))
                 .defaultIfEmpty(false)
+                .onErrorResume(error -> {
+                    logger.error("Error during token validation: {}", error.getMessage());
+                    return Mono.just(false);
+                })
                 .doOnTerminate(() -> logger.info("Token validation process completed"));
     }
 
@@ -142,41 +148,30 @@ public class AuthService  implements AuthServiceInterface {
             return claims;
         });
     }
+    @Override
+    public Mono<String> generateAccessFromRefresh(String refreshToken){
+        logger.info("Starting generation of access token from refresh token: {}", refreshToken);
 
-//    @Transactional
-//    public void activateAccount(String token) throws MessagingException {
-//        Token savedToken = tokenRepository.findByToken(token)
-//                // todo exception has to be defined
-//                .orElseThrow(() -> new RuntimeException("Invalid token"));
-//        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
-//            sendValidationEmail(savedToken.getUser());
-//            throw new RuntimeException("Activation token has expired. A new token has been send to the same email address");
-//        }
-//
-//        var user = userRepository.findById(savedToken.getUser().getId())
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//        user.setEnabled(true);
-//        userRepository.save(user);
-//
-//        savedToken.setValidatedAt(LocalDateTime.now());
-//        tokenRepository.save(savedToken);
-//    }
+        return jwtService.getToken(refreshToken)
+                .doOnSubscribe(sub -> logger.info("Fetching token entity from database"))
+                .flatMap(token -> {
+                    logger.info("Token entity retrieved: {}", token);
+                    return jwtService.extractUsername(refreshToken);
+                })
+                .doOnNext(username -> logger.info("Extracted username: {}", username))
+                .flatMap(customUserServiceDetails::findUserByEmail)
+                .doOnNext(user -> logger.info("User found by email: {}", user))
+                .flatMap(user -> getUserClaims(user.getUser_id())
+                        .doOnNext(claims -> logger.info("User claims retrieved: {}", claims))
+                        .flatMap(claims -> jwtService.generateAccess(claims, user))
+                        .doOnSuccess(accessToken -> logger.info("Access token generated successfully")))
+                .onErrorResume(error -> {
+                    logger.error("Error during access token generation from refresh: {}", error.getMessage());
+                    return Mono.error(error);
+                })
+                .doOnTerminate(() -> logger.info("Access token generation process completed"));
+    }
 
-//    private String generateAndSaveActivationToken(User user) {
-//
-//        String generatedToken = generateActivationCode(6);
-//        var token = Token.builder()
-//                .token(generatedToken)
-//                .createdAt(LocalDateTime.now())
-//                .expiresAt(LocalDateTime.now().plusMinutes(15))
-//                .user(user)
-//                .build();
-//        tokenRepository.save(token);
-//
-//        return generatedToken;
-//    }
-//
-//
-//
+
 
 }

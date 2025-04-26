@@ -79,7 +79,6 @@ public class ActivationService implements ActivationServiceInterface {
     public Mono<HashMap<String, Object>> validateAccount(String code, String authHeader) {
         logger.info("Starting account validation with code: {}", code);
 
-        // Step 1: Verify the activation code exists
         return verifyCodeExists(code)
                 .then(validateAuthHeader(authHeader))
                 .flatMap(token -> processTokenAndValidateUser(token, code));
@@ -98,6 +97,7 @@ public class ActivationService implements ActivationServiceInterface {
                             .doOnNext(code -> logger.debug("Activation code generated successfully"))
                             .flatMap(code -> {
                                 HashMap<String, Object> map = new HashMap<>();
+                                map.put("messageType", "ACTIVATION_CODE");
                                 map.put("activationCode", code);
                                 map.put("to", user.getEmail());
                                 map.put("subject", user.getLastName());
@@ -248,7 +248,7 @@ public class ActivationService implements ActivationServiceInterface {
     private Mono<HashMap<String, Object>> generateNewTokenForUser(User user) {
         // Re-fetch the user to get the updated activation status
         return customUserServiceDetails.findUserByEmail(user.getEmail())
-                .flatMap(updatedUser -> jwtService.generateToken(updatedUser)
+                .flatMap(updatedUser -> jwtService.generateTokens(updatedUser)
                         .map(newToken -> {
                             HashMap<String, Object> response = new HashMap<>();
                             response.put("validated", true);

@@ -1,6 +1,5 @@
 package org.atlas.controllers;
 
-import io.jsonwebtoken.Claims;
 import org.atlas.entities.User;
 import org.atlas.interfaces.ActivationServiceInterface;
 import org.atlas.interfaces.AuthServiceInterface;
@@ -10,14 +9,16 @@ import org.atlas.responses.CodeResponse;
 import org.atlas.services.ActivationService;
 import org.atlas.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -35,8 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/generate/token")
-    public Mono<ResponseEntity<String>> generateToken(@RequestBody User user) {
-
+    public Mono<ResponseEntity<HashMap<String,String>>> generateToken(@RequestBody User user) {
           return authService.generateToken(user)
                   .map(token -> ResponseEntity.ok().body(token));
     }
@@ -44,10 +44,19 @@ public class AuthController {
     @PostMapping("/authenticate")
     public Mono<ResponseEntity<Void>> authenticate(@RequestBody SignInRequest signInRequest) {
         return authService.authenticate(signInRequest)
-                .map(signInResponse -> ResponseEntity.ok()
-                        .header("Authorization", "Bearer " + signInResponse.token())
-                        .build()
-                );
+                .map(signInResponse -> {
+                    ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", signInResponse.refreshToken())
+                            .httpOnly(true)
+                            .path("/")
+                            .domain("localhost")
+                            .sameSite("Strict")
+                            .maxAge(Duration.ofDays(10))
+                            .build();
+                    return ResponseEntity.ok()
+                            .header("Authorization", "Bearer " + signInResponse.accessToken())
+                            .header(HttpHeaders.SET_COOKIE, String.valueOf(refreshTokenCookie))
+                            .build();
+                });
     }
 
 
@@ -93,6 +102,16 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/refresh-token")
+    public Mono<ResponseEntity<Void>> refreshToken(ServerWebExchange exchange) {
+        return authService.generateAccessFromRefresh(Objects.requireNonNull(exchange.getRequest().getCookies().getFirst("refresh_token")).getValue())
+                .map(token -> {
+                    return ResponseEntity.ok()
+                            .header("Authorization", "Bearer " + token)
+                            .build();
+                });
+
+    }
 }
 
 

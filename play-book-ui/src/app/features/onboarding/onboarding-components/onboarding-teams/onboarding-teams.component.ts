@@ -43,11 +43,17 @@ export class OnboardingTeamsComponent {
 
 
   onSubmitSkip() {
-    const team: Team = {
-      name: 'Default',
-      organizationId: ''
-    }
-    this.store.dispatch(CreateTeam({team: team}));
+    this.store.select(selectCompanyId).pipe(
+      take(1),
+      map(companyId => {
+        const team : Team = {
+          name : "Default",
+          organizationId: companyId as string,
+        }
+        this.store.dispatch(CreateTeam({team: team}));
+      })
+    ).subscribe();
+    this.store.dispatch(Navigate({path:'onboarding/teams/invite'}));
   }
 
   onCreateTeam() {

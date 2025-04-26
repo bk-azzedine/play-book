@@ -18,6 +18,7 @@
       <module>config-service</module>
     <module>organization-service</module>
       <module>email-service</module>
+      <module>document-service</module>
   </modules>
 
   <properties>

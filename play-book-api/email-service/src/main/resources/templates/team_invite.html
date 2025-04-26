@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited to Join a Team on PlayBook</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F7FF;
+            color: #0D0A14;
+            line-height: 1.6;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .email-header {
+            background-color: #000000;
+            padding: 25px 30px;
+            text-align: left;
+        }
+        .logo {
+            color: #FFFFFF;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .email-body {
+            padding: 35px 30px;
+        }
+        h1 {
+            color: #000000;
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .invite-container {
+            margin: 35px 0;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #F8F7FF;
+            border-radius: 8px;
+        }
+        .team-info {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .org-name {
+            font-weight: bold;
+            color: #000000;
+        }
+        .team-name {
+            font-weight: bold;
+            color: #8A00C4;
+        }
+        .button-container {
+            margin: 30px 0 15px 0;
+            text-align: center;
+        }
+        .accept-button {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: #8A00C4;
+            color: #FFFFFF !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .url-note {
+            font-size: 13px;
+            color: #666666;
+            margin-top: 15px;
+        }
+        .instructions {
+            background-color: #F8F7FF;
+            border-left: 4px solid #8A00C4;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .instructions h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #000000;
+        }
+        .instructions ol {
+            margin: 15px 0 0 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        .expiration-notice {
+            font-style: italic;
+            color: #666666;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+        .help-text {
+            margin-top: 30px;
+            font-size: 15px;
+            color: #666666;
+            border-top: 1px solid #F8F7FF;
+            padding-top: 20px;
+        }
+        .support {
+            margin-top: 25px;
+            font-size: 15px;
+        }
+        .support a {
+            color: #8A00C4;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .email-footer {
+            background-color: #F8F7FF;
+            padding: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <div class="logo">PlayBook</div>
+    </div>
+
+    <div class="email-body">
+        <h1>You've Been Invited!</h1>
+        <p>You've been invited to join a team on PlayBook.</p>
+
+        <div class="invite-container">
+            <p class="team-info">You've been invited to join <span class="team-name" th:text="${teamName}"></span> at <span class="org-name" th:text="${orgName}"></span></p>
+
+            <div class="button-container">
+                <a th:href="@{'playbook/team/invite?token=' + ${inviteToken}}" class="accept-button">Accept Invitation</a>
+            </div>
+
+        </div>
+
+        <div class="instructions">
+            <h2>How to join the team:</h2>
+            <ol>
+                <li>Click the "Accept Invitation" button above</li>
+                <li>Sign in to your PlayBook account (or create one if you're new)</li>
+                <li>You'll be automatically added to the team</li>
+                <li>Start collaborating with your team!</li>
+            </ol>
+        </div>
+
+        <p>Once you accept the invitation, you'll have access to all the team's resources and can start collaborating right away.</p>
+
+        <p class="expiration-notice">This invitation will expire in 7 days. If you need a new invitation after that time, please contact your team administrator.</p>
+
+        <p class="help-text">If you weren't expecting this invitation, please disregard this email.</p>
+
+        <p class="support">Need help? Contact our support team at <a href="mailto:support@playbook.com">support@playbook.com</a></p>
+    </div>
+
+    <div class="email-footer">
+        <div class="social-links">
+            <a href="#">Twitter</a> •
+            <a href="#">LinkedIn</a> •
+            <a href="#">Instagram</a>
+        </div>
+        <p>&copy; 2025 PlayBook. All rights reserved.</p>
+        <p>123 Tech Street, Suite 100, San Francisco, CA 94103</p>
+    </div>
+</div>
+</body>
+</html>

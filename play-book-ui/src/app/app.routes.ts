@@ -20,6 +20,12 @@ import {
 import {
   OnboardingTeamsInviteComponent
 } from './features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component';
+import {
+  OnboardingFinishedComponent
+} from './features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component';
+import {HomePageComponent} from './features/home/home-page/home-page.component';
+import {RecentDocumentsComponent} from './features/home/home/recent-documents/recent-documents.component';
+
 
 export const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
@@ -47,10 +53,23 @@ export const routes: Routes = [
       {
         path: 'teams/invite',
         component: OnboardingTeamsInviteComponent
+      },
+      {
+        path:'finished',
+        component: OnboardingFinishedComponent
       }
     ]
-    // ,
-    // canActivate: [tokenGuard, onboardingGuard]
+    ,
+    canActivate: [tokenGuard, onboardingGuard]
+  },
+  {
+    path:'home',
+    children:[
+      {path:'',
+         component: RecentDocumentsComponent,
+      }
+    ],
+    component: HomePageComponent
   },
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', redirectTo: 'login', pathMatch: 'full'}

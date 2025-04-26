@@ -4,5 +4,5 @@ import lombok.Builder;
 import lombok.Data;
 
 
-public record SignInResponse(String token){
+public record SignInResponse(String accessToken, String refreshToken) {
 }

@@ -101,14 +101,15 @@ public class TeamService implements TeamServiceInterface {
                                                 .email(teamInviteRequest.email())
                                                 .expires(LocalDateTime.now().plusDays(3))
                                                 .status(InviteStatus.PENDING)
-                                                .teamId(team.getTeam_id())  // Added missing team_id
+                                                .teamId(team.getTeam_id())
                                                 .build()
                                 ).flatMap(savedInvite -> {
                                     HashMap<String, Object> map = new HashMap<>();
-                                    map.put("team_id", team.getTeam_id());
+                                    map.put("messageType", "TEAM_INVITE");
+                                    map.put("email", teamInviteRequest.email());
                                     map.put("team_name", team.getName());
                                     map.put("organization_name", organization.getName());
-                                    map.put("invite_id", savedInvite.getInviteId());  // Include the invite ID in the message
+                                    map.put("invite_id", savedInvite.getInviteId());
 
                                     logger.info("Publishing team invite message for team: {}, organization: {}",
                                             team.getName(), organization.getName());
