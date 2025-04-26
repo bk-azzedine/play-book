@@ -1,0 +1,24 @@
+<section hlmCard class="bg-[#F1F0FC] rounded-lg p-4 relative border border-none transition-all duration-300 hover:translate-y-[-4px]"
+         style="box-shadow: -77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10);"
+         onmouseover="this.style.boxShadow='-77px 36px 30px 0px rgba(117, 117, 117, 0.01), -49px 23px 28px 0px rgba(117, 117, 117, 0.03), -28px 13px 24px 0px rgba(117, 117, 117, 0.08), -12px 6px 18px 0px rgba(117, 117, 117, 0.12), -3px 1px 10px 0px rgba(117, 117, 117, 0.15)'"
+         onmouseout="this.style.boxShadow='-77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10)'">
+  <div hlmCardHeader class="mb-2">
+    <div class="flex justify-between items-start">
+      <h3 hlmCardTitle class="text-2xl font-bold text-black mb-2">{{ doc()?.title }}</h3>
+      <div class="rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm"
+           [style.background-color]="doc()?.user?.avatarColor">
+        {{ doc()?.user?.initials }}
+      </div>
+    </div>
+    <p hlmCardDescription class="text-sm text-black mb-4">{{doc()?.description }}</p>
+  </div>
+  <div hlmCardFooter class="flex justify-between items-center mt-4">
+    <div class="grid grid-cols-2 gap-1">
+      <a *ngFor="let tag of doc()?.tags" target="_blank" class="bg-secondary text-black text-xs"
+         href="https://github.com/goetzrobin/spartan" hlmBadge>{{ tag }}</a>
+    </div>
+    <p class="text-gray-700 text-xs">
+      last updated {{doc()?.lastUpdated }}
+    </p>
+  </div>
+</section>

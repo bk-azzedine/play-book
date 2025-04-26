@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="play-book" type="Multirun" separateTabs="false" reuseTabsWithFailures="false" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="10.0">
+    <runConfiguration name="RegistryServiceApplication" type="Spring Boot" />
+    <runConfiguration name="ConfigApplication" type="Spring Boot" />
+    <runConfiguration name="AuthServiceApplication" type="Spring Boot" />
+    <runConfiguration name="UserServiceApplication" type="Spring Boot" />
+    <runConfiguration name="OrganizationServiceApplication" type="Spring Boot" />
+    <runConfiguration name="ApiGawayApplication" type="Spring Boot" />
+    <runConfiguration name="DocumentServiceApplication" type="Spring Boot" />
+    <runConfiguration name="EmailServiceApplication" type="Spring Boot" />
+    <method v="2" />
+  </configuration>
+</component>
