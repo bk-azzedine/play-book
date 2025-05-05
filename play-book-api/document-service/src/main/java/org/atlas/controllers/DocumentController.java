@@ -1,5 +1,6 @@
 package org.atlas.controllers;
 
+import org.atlas.dtos.DocumentDto;
 import org.atlas.entities.DocumentEntity;
 import org.atlas.interfaces.DocumentServiceInterface;
 import org.atlas.services.DocumentService;
@@ -22,9 +23,11 @@ public class DocumentController {
     public Mono<ResponseEntity<DocumentEntity>> save(@RequestBody DocumentEntity entity) {
         return documentService.save(entity).map(doc -> ResponseEntity.ok().body(doc));
     }
-    @GetMapping
-    public Mono<ResponseEntity<Flux<DocumentEntity>>> getRecentDocs(@RequestHeader("email") String email) {
-        Flux<DocumentEntity> docs = documentService.getRecentUserDocs(email);
+
+
+    @GetMapping("/organization/{organization}/user/{user}")
+    public Mono<ResponseEntity<Flux<DocumentDto>>> getRecentDocs(@PathVariable("organization") String organization, @PathVariable("user") String user) {
+        Flux<DocumentDto> docs = documentService.getRecentUserDocs(organization, user);
         return Mono.just(ResponseEntity.ok().body(docs));
     }
 }

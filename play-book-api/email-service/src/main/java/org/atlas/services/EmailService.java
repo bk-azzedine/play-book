@@ -4,6 +4,8 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.atlas.enums.Template;
 import org.atlas.interfaces.EmailServiceInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 public class EmailService implements EmailServiceInterface {
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine springTemplateEngine;
 
@@ -25,33 +28,48 @@ public class EmailService implements EmailServiceInterface {
     public EmailService(JavaMailSender mailSender, SpringTemplateEngine springTemplateEngine) {
         this.mailSender = mailSender;
         this.springTemplateEngine = springTemplateEngine;
+        logger.info("EmailService initialized with mailSender: {}", mailSender.getClass().getSimpleName());
     }
 
     @Override
     public void sendActivationEmail(String to,
-                          String username,
-                          Template templateEnum,
-                          String activationCode,
-                          String subject) throws MessagingException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, UTF_8.name());
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("username", username);
-        properties.put("activationCode", activationCode);
-        Context context = new Context();
-        context.setVariables(properties);
+                                    String username,
+                                    Template templateEnum,
+                                    String activationCode,
+                                    String subject) throws MessagingException {
+        logger.info("Preparing to send activation email to: {}", to);
+        logger.debug("Using template: {}, for user: {}", templateEnum.getValue(), username);
 
-        helper.setFrom("support@playbook.com");
-        helper.setTo(to);
-        helper.setSubject(subject);
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, UTF_8.name());
 
-        String template = springTemplateEngine.process(templateEnum.getValue(), context);
+            Map<String, Object> properties = new HashMap<>();
+            properties.put("username", username);
+            properties.put("activationCode", activationCode);
+            logger.debug("Email properties set: {}", properties);
 
-        helper.setText(template, true);
+            Context context = new Context();
+            context.setVariables(properties);
 
-        mailSender.send(mimeMessage);
+            helper.setFrom("support@playbook.com");
+            helper.setTo(to);
+            helper.setSubject(subject);
 
+            String template = springTemplateEngine.process(templateEnum.getValue(), context);
+            logger.debug("Template processed successfully, content length: {}", template.length());
+
+            helper.setText(template, true);
+
+            logger.info("Sending activation email to: {}", to);
+            mailSender.send(mimeMessage);
+            logger.info("Activation email successfully sent to: {}", to);
+        } catch (Exception e) {
+            logger.error("Failed to send activation email to: {}", to, e);
+            throw e;
+        }
     }
+
     @Override
     public void sendInviteEmail(
             String to,
@@ -60,21 +78,37 @@ public class EmailService implements EmailServiceInterface {
             String teamName,
             String orgName
     ) throws MessagingException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, UTF_8.name());
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("inviteToken", inviteToken);
-        properties.put("teamName", teamName);
-        properties.put("orgName", orgName);
-        Context context = new Context();
-        context.setVariables(properties);
-        helper.setFrom("support@playbook.com");
-        helper.setTo(to);
-        String template = springTemplateEngine.process(templateEnum.getValue(), context);
+        logger.info("Preparing to send team invitation email to: {}", to);
+        logger.debug("Invitation details - Team: {}, Organization: {}", teamName, orgName);
 
-        helper.setText(template, true);
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, UTF_8.name());
 
-        mailSender.send(mimeMessage);
+            Map<String, Object> properties = new HashMap<>();
+            properties.put("inviteToken", inviteToken);
+            properties.put("teamName", teamName);
+            properties.put("orgName", orgName);
+            logger.debug("Email properties set: {}", properties);
+
+            Context context = new Context();
+            context.setVariables(properties);
+
+            helper.setFrom("support@playbook.com");
+            helper.setTo(to);
+            helper.setSubject(String.format("Invitation to join %s team at %s", teamName, orgName));
+
+            String template = springTemplateEngine.process(templateEnum.getValue(), context);
+            logger.debug("Template processed successfully, content length: {}", template.length());
+
+            helper.setText(template, true);
+
+            logger.info("Sending invitation email to: {}", to);
+            mailSender.send(mimeMessage);
+            logger.info("Invitation email successfully sent to: {}", to);
+        } catch (Exception e) {
+            logger.error("Failed to send invitation email to: {} for team: {}", to, teamName, e);
+            throw e;
+        }
     }
-
 }

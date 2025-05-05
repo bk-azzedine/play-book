@@ -1,8 +1,7 @@
 package org.atlas.responses;
 
-import lombok.Builder;
-import lombok.Data;
+import org.atlas.dtos.UserDto;
 
 
-public record SignInResponse(String accessToken, String refreshToken) {
+public record SignInResponse(String accessToken, String refreshToken, UserDto user) {
 }

@@ -1,9 +1,24 @@
-import {Company} from '../states/company/company.state';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { CompanyState } from '../states/company.state';
 
-const selectCompany = createFeatureSelector<Company>('company')
+export const selectCompanyState = createFeatureSelector<CompanyState>('company');
 
-export const selectCompanyId = createSelector(
-  selectCompany,
-  (state: Company)=> state.organizationId
+export const selectAllCompanies = createSelector(
+  selectCompanyState,
+  (state: CompanyState) => state.companies
+);
+
+export const selectSelectedCompany = createSelector(
+  selectCompanyState,
+  (state: CompanyState) => state.selectedCompany
+);
+
+export const selectCompanyLoading = createSelector(
+  selectCompanyState,
+  (state: CompanyState) => state.loading
+);
+
+export const selectCompanyError = createSelector(
+  selectCompanyState,
+  (state: CompanyState) => state.error
 );

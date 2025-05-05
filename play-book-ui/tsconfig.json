@@ -54,6 +54,18 @@
       ],
       "@spartan-ng/ui-badge-helm": [
         ".\\src/assets/libs/ui-badge-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-hovercard-helm": [
+        ".\\src/assets/libs/ui-hovercard-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-scrollarea-helm": [
+        ".\\src/assets/libs/ui-scrollarea-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-breadcrumb-helm": [
+        ".\\src/assets/libs/ui-breadcrumb-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-separator-helm": [
+        ".\\src/assets/libs/ui-separator-helm/src/index.ts"
       ]
     }
   },

@@ -1,23 +1,31 @@
-import {Auth} from '../states/auth/auth.state';
+import {AuthState} from '../states/auth.state';
 import {
   LoginSuccess,
   LoginSuccessNotEnabled,
-  LoginSuccessNotSetUp,
-  ValidateAccount,
+  LoginSuccessNotSetUp, LogoutConfirmed, RefreshSuccess,
   ValidationSuccess
 } from '../actions/auth.actions';
 import {createReducer, on} from '@ngrx/store';
+import {RegisterSuccess} from '../actions/user.actions';
 
-export const initialAuthState: Auth = {
+export const initialAuthState: AuthState = {
   token: '',
-  isLoggedIn: false
+  isLoggedIn: false,
+  user: null
 }
 
 export const authReducer = createReducer(
   initialAuthState,
-  on(LoginSuccess, LoginSuccessNotEnabled, ValidationSuccess, LoginSuccessNotSetUp, (state, action) => ({
+  on(LoginSuccess,RefreshSuccess,RegisterSuccess, LoginSuccessNotEnabled,  LoginSuccessNotSetUp, (state, action) => ({
     ...state,
     isLoggedIn: true,
-    token: action.token
+    token: action.token,
+    user: action.user
+  })),
+  on(ValidationSuccess,  (state, action) => ({
+    ...state,
+    isLoggedIn: true,
+    token: action.token,
+    user: null
   }))
 );

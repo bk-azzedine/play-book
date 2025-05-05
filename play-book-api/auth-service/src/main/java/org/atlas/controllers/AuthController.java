@@ -1,5 +1,6 @@
 package org.atlas.controllers;
 
+import org.atlas.dtos.UserDto;
 import org.atlas.entities.User;
 import org.atlas.interfaces.ActivationServiceInterface;
 import org.atlas.interfaces.AuthServiceInterface;
@@ -42,20 +43,19 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public Mono<ResponseEntity<Void>> authenticate(@RequestBody SignInRequest signInRequest) {
+    public Mono<ResponseEntity<UserDto>> authenticate(@RequestBody SignInRequest signInRequest) {
         return authService.authenticate(signInRequest)
                 .map(signInResponse -> {
                     ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", signInResponse.refreshToken())
                             .httpOnly(true)
                             .path("/")
-                            .domain("localhost")
                             .sameSite("Strict")
                             .maxAge(Duration.ofDays(10))
                             .build();
                     return ResponseEntity.ok()
                             .header("Authorization", "Bearer " + signInResponse.accessToken())
                             .header(HttpHeaders.SET_COOKIE, String.valueOf(refreshTokenCookie))
-                            .build();
+                            .body(signInResponse.user());
                 });
     }
 
@@ -103,14 +103,24 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public Mono<ResponseEntity<Void>> refreshToken(ServerWebExchange exchange) {
+    public Mono<ResponseEntity<UserDto>> refreshToken(ServerWebExchange exchange) {
         return authService.generateAccessFromRefresh(Objects.requireNonNull(exchange.getRequest().getCookies().getFirst("refresh_token")).getValue())
-                .map(token -> {
+                .map(refreshResponse -> {
                     return ResponseEntity.ok()
-                            .header("Authorization", "Bearer " + token)
-                            .build();
+                            .header("Authorization", "Bearer " + refreshResponse.accessToken())
+                            .body(refreshResponse.user());
                 });
 
+    }
+
+    @PostMapping("/logout")
+    public Mono<ResponseEntity<Void>> logout(ServerWebExchange exchange ) {
+        return authService.logOut(Objects.requireNonNull(exchange.getRequest().getCookies().getFirst("refresh_token")).getValue(), Objects.requireNonNull(exchange.getRequest().getHeaders().getFirst("Authorization")).substring(7)).map(
+                res -> {
+                    return ResponseEntity.ok()
+                            .build();
+                }
+        );
     }
 }
 

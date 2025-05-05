@@ -6,7 +6,8 @@ import static org.atlas.exceptions.ExceptionType.*;
 
 @Getter
 public enum Exceptions {
-      EXCEPTION_01("TEAM_NOT_FOUND", NOT_FOUND);
+      EXCEPTION_01("TEAM_NOT_FOUND", NOT_FOUND),
+    EXCEPTION_02("ORGANIZATION_NOT_FOUND", NOT_FOUND);
 
 
     public final String message;

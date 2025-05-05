@@ -30,7 +30,7 @@ public class UserService implements UserServiceInterface {
                 .uri("/security/" + email)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .map(response -> UUID.fromString((String) response.get("user_id")))
+                .map(response -> UUID.fromString((String) response.get("userId")))
                 .onErrorResume(WebClientResponseException.NotFound.class, ex -> {
                     logger.error("User not found with email: {}", email);
                     return Mono.empty();

@@ -15,8 +15,8 @@ export class UserEffects {
       ofType(UserActionTypes.Register),
       exhaustMap((action) =>
         this.userService.register(action.user).pipe(
-          map(user => {
-            return RegisterSuccess({ user });
+          map(res => {
+            return RegisterSuccess({ token: res.token, user: res.user  });
           }),
           catchError(error => {
             return of(RegisterFailure( error?.error.message ));

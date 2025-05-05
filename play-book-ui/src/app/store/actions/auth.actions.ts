@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Credentials} from '../models/credentials.model';
+import {User} from '../models/user.model';
 
 export enum AuthActionTypes {
   Login = '[Login Page] Login',
@@ -17,7 +18,10 @@ export enum AuthActionTypes {
   ResendCodeFailure = '[Auth] Resend Activation Code Failed',
   Validate = '[Auth API] Validate Account',
   ValidateSuccess = '[Auth API Validation Success',
-  ValidationFailure = '[Auth API Validation Failure'
+  ValidationFailure = '[Auth API Validation Failure',
+  InitializeAuth = '[Auth] Initialize Auth',
+  RefreshSuccess = '[Auth] Refresh Auth',
+
 
 }
 
@@ -30,11 +34,11 @@ export const LoginComplete = createAction(AuthActionTypes.LoginComplete);
 
 export const LoginSuccess = createAction(
   AuthActionTypes.LoginSuccess,
-  props<{ token: string }>()
+  props<{ token: string, user: User }>()
 );
 export const LoginSuccessNotSetUp = createAction(
   AuthActionTypes.LoginSuccessNotSetUp,
-  props<{ token: string }>()
+  props<{  token: string, user: User}>()
 );
 
 export const LoginFailure = createAction(
@@ -44,7 +48,7 @@ export const LoginFailure = createAction(
 
 export const LoginSuccessNotEnabled = createAction(
   AuthActionTypes.LoginSuccessNotEnabled,
-  props<{token : string}>()
+  props<{ token: string, user: User}>()
 )
 export const ResendCode = createAction(
   AuthActionTypes.ResendCode
@@ -76,5 +80,13 @@ export const Logout = createAction(AuthActionTypes.Logout);
 
 export const LogoutConfirmed = createAction(AuthActionTypes.LogoutConfirmed);
 
-export const LogoutCancelled = createAction(AuthActionTypes.LogoutCancelled);
+export const LogoutCancelled = createAction(AuthActionTypes.LogoutCancelled,
+  props<{error: any}>()
+  );
+
+
+export const RefreshSuccess = createAction(
+  AuthActionTypes.RefreshSuccess,
+  props<{ token: string, user: User }>()
+);
 

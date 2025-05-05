@@ -1,13 +1,17 @@
 package org.atlas.services;
 
 
+import org.atlas.dtos.UserDto;
 import org.atlas.entities.User;
 import org.atlas.exceptions.Exception;
 import org.atlas.exceptions.ExceptionHandler;
 import org.atlas.interfaces.AuthServiceInterface;
 import org.atlas.interfaces.JwtServiceInterface;
+import org.atlas.repositories.TokenRepository;
 import org.atlas.requests.SignInRequest;
 import org.atlas.responses.SignInResponse;
+import org.atlas.responses.refreshResponse;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +41,25 @@ public class AuthService  implements AuthServiceInterface {
     private final ReactiveAuthenticationManager authenticationManager;
     private final WebClient organizationWebClient;
 
+    private final ModelMapper modelMapper;
+
     final Logger logger =
             LoggerFactory.getLogger(AuthService.class);
+    private final TokenRepository tokenRepository;
 
     @Autowired
     public AuthService(
             CustomUserServiceDetails customUserServiceDetails,
             JwtServiceInterface jwtService,
             ReactiveAuthenticationManager authenticationManager,
-            @Qualifier("organizationWebClient") WebClient organizationWebClient) {
+            @Qualifier("organizationWebClient") WebClient organizationWebClient, ModelMapper modelMapper, TokenRepository tokenRepository) {
 
         this.customUserServiceDetails = customUserServiceDetails;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.organizationWebClient = organizationWebClient;
+        this.modelMapper = modelMapper;
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -74,11 +83,13 @@ public class AuthService  implements AuthServiceInterface {
                 })
                 .flatMap(auth -> {
                     var user = (User) auth.getPrincipal();
-                    var claims = this.getUserClaims(user.getUser_id());
+                    var claims = this.getUserClaims(user.getUserId());
 
                     return jwtService.generateTokens(claims, user).map(
-                            res ->
-                                    new SignInResponse(res.get("access"),res.get("refresh") )
+                            res ->{
+                                    UserDto userDto = modelMapper.map(user, UserDto.class);
+                                  return  new SignInResponse(res.get("access"),res.get("refresh"), userDto );
+                            }
                     );
 
                 });
@@ -149,29 +160,67 @@ public class AuthService  implements AuthServiceInterface {
         });
     }
     @Override
-    public Mono<String> generateAccessFromRefresh(String refreshToken){
+    public Mono<refreshResponse> generateAccessFromRefresh(String refreshToken) {
         logger.info("Starting generation of access token from refresh token: {}", refreshToken);
 
         return jwtService.getToken(refreshToken)
                 .doOnSubscribe(sub -> logger.info("Fetching token entity from database"))
                 .flatMap(token -> {
-                    logger.info("Token entity retrieved: {}", token);
+                    if (!token.is_valid()) {
+                        logger.warn("Refresh token is invalid: {}", token);
+                        return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_04)));
+                    }
+                    logger.info("Token entity retrieved and valid: {}", token);
                     return jwtService.extractUsername(refreshToken);
                 })
                 .doOnNext(username -> logger.info("Extracted username: {}", username))
                 .flatMap(customUserServiceDetails::findUserByEmail)
                 .doOnNext(user -> logger.info("User found by email: {}", user))
-                .flatMap(user -> getUserClaims(user.getUser_id())
-                        .doOnNext(claims -> logger.info("User claims retrieved: {}", claims))
-                        .flatMap(claims -> jwtService.generateAccess(claims, user))
-                        .doOnSuccess(accessToken -> logger.info("Access token generated successfully")))
+                .flatMap(user ->
+                        getUserClaims(user.getUserId())
+                                .doOnNext(claims -> logger.info("User claims retrieved: {}", claims))
+                                .flatMap(claims -> jwtService.generateAccess(claims, user)
+                                        .map(accessToken -> {
+                                            logger.info("Access token generated successfully: {}", accessToken);
+                                            UserDto userDto = modelMapper.map(user, UserDto.class);
+                                            return new refreshResponse(accessToken, userDto);
+                                        })
+                                )
+                )
                 .onErrorResume(error -> {
-                    logger.error("Error during access token generation from refresh: {}", error.getMessage());
+                    logger.error("Error during access token generation from refresh: {}", error.getMessage(), error);
                     return Mono.error(error);
                 })
                 .doOnTerminate(() -> logger.info("Access token generation process completed"));
     }
 
 
+
+    @Override
+    public Mono<Void> logOut(String refreshToken, String accessToken) {
+        logger.info("Starting loggerout process for accessToken: {} and refreshToken: {}", accessToken, refreshToken);
+
+        return tokenRepository.findByToken(accessToken)
+                .flatMap(accessTok -> {
+                    logger.info("Access token found: {}", accessTok);
+                    accessTok.set_valid(false);
+                    logger.info("Access token set to invalid. Saving access token...");
+                    return tokenRepository.save(accessTok)
+                            .doOnSuccess(savedAccessToken -> logger.info("Access token successfully saved: {}", savedAccessToken))
+                            .doOnError(e -> logger.error("Error while saving access token: {}", e.getMessage()))
+                            .then(tokenRepository.findByToken(refreshToken));
+                })
+                .flatMap(refreshTok -> {
+                    logger.info("Refresh token found: {}", refreshTok);
+                    refreshTok.set_valid(false);
+                    logger.info("Refresh token set to invalid. Saving refresh token...");
+                    return tokenRepository.save(refreshTok)
+                            .doOnSuccess(savedRefreshToken -> logger.info("Refresh token successfully saved: {}", savedRefreshToken))
+                            .doOnError(e -> logger.error("Error while saving refresh token: {}", e.getMessage()));
+                })
+                .doOnSuccess(unused -> logger.info("Logout process completed successfully."))
+                .doOnError(e -> logger.error("Error during loggerout process: {}", e.getMessage()))
+                .then(); // Complete with Mono<Void>
+    }
 
 }

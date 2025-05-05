@@ -48,6 +48,7 @@ export class OnboardingTeamsInviteComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectAllTeams).subscribe(teams => {
+      if (teams)
       this.teams = teams;
     });
   }
@@ -56,7 +57,7 @@ export class OnboardingTeamsInviteComponent implements OnInit {
   onInvite() {
       if (this.teamInvites.valid) {
         const email = this.teamInvites.get('email')?.value || '';
-        const teamId = this.selectedTeam?.teamId || '';
+        const teamId = this.selectedTeam?.id || '';
         const teamInvite: TeamInviteRequest = {
           email: email,
           teamId: teamId

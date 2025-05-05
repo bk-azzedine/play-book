@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface DocumentRepository extends ReactiveMongoRepository<DocumentEntity, String> {
 
-    Flux<DocumentEntity> findDocumentEntitiesByAuthorsContains(List<String> authors);
+    Flux<DocumentEntity> findDocumentEntitiesByAuthorsContainsAndOrganization(List<String> authors, String organization);
 }

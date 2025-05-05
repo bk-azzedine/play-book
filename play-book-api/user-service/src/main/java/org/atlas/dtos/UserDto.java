@@ -11,11 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class UserDto {
-    private UUID user_id;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String email;
-    private boolean isActivated;
-    private boolean isSetUp;
 
 }

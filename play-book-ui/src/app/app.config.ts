@@ -9,31 +9,43 @@ import {provideStore} from '@ngrx/store';
 import {authReducer} from './store/reducers/auth.reducer';
 import {AuthEffects} from './store/effects/auth.effects';
 import {UserEffects} from './store/effects/user.effects';
-import {userReducer} from './store/reducers/user.reducer';
 import {provideRouterStore, routerReducer} from '@ngrx/router-store';
 import {RouterEffects} from './store/effects/router.effects';
 import {authInterceptor} from './core/interceptors/auth.interceptor';
 import {CompanyEffect} from './store/effects/company.effect';
 import {companyReducer} from './store/reducers/company.reducer';
 import {TeamEffect} from './store/effects/team.effect';
-import {teamReducer} from './store/reducers/team.reducer';
+import {DocumentEffects} from './store/effects/document.effects';
+import {CookieService} from 'ngx-cookie-service';
+import { principalStorageMetaReducer} from './store/reducers/meta-reducers/auth.meta-reducer';
+import {companyStorageMetaReducer} from './store/reducers/meta-reducers/company.meta-reducer';
+import {documentReducer} from './store/reducers/document.reducer';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
+    CookieService,
     provideRouter(routes),
-    provideStore({
-      auth: authReducer,
-      user: userReducer,
-      company: companyReducer,
-      team: teamReducer,
-    }),
+    provideStore(
+      {
+        auth: authReducer,
+        company: companyReducer,
+        documents: documentReducer,
+      },
+      {
+        metaReducers: [
+          principalStorageMetaReducer,
+          companyStorageMetaReducer
+        ]
+      }
+    ),
     provideEffects([
       AuthEffects,
       CompanyEffect,
       UserEffects,
       RouterEffects,
-      TeamEffect
+      TeamEffect,
+      DocumentEffects
     ]),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideRouterStore(),

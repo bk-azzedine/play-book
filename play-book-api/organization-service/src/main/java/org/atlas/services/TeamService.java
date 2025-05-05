@@ -1,5 +1,8 @@
 package org.atlas.services;
 
+import org.atlas.dtos.SpaceDto;
+import org.atlas.dtos.TeamMembersDto;
+import org.atlas.dtos.TeamsDto;
 import org.atlas.entities.Team;
 import org.atlas.entities.TeamInvites;
 import org.atlas.entities.TeamMembers;
@@ -9,25 +12,27 @@ import org.atlas.enums.TeamRole;
 import org.atlas.exceptions.Exception;
 import org.atlas.exceptions.ExceptionHandler;
 import org.atlas.interfaces.OrganizationPublishServiceInterface;
+import org.atlas.interfaces.SpaceServiceInterface;
 import org.atlas.interfaces.TeamServiceInterface;
 
-import org.atlas.repositories.OrganizationRepository;
-import org.atlas.repositories.TeamInvitesRepository;
-import org.atlas.repositories.TeamMembersRepository;
-import org.atlas.repositories.TeamRepository;
+import org.atlas.repositories.*;
+import org.atlas.requests.SpaceRequest;
 import org.atlas.requests.TeamInviteRequest;
 import org.atlas.requests.TeamRequest;
-import org.atlas.enums.InviteStatus;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.*;
+
 
 import static org.atlas.exceptions.Exceptions.EXCEPTION_01;
+import static org.atlas.exceptions.Exceptions.EXCEPTION_02;
 
 @Service
 public class TeamService implements TeamServiceInterface {
@@ -37,19 +42,24 @@ public class TeamService implements TeamServiceInterface {
     final OrganizationRepository organizationRepository;
     final TeamInvitesRepository teamInvitesRepository;
     final OrganizationPublishServiceInterface publishService;
+    private final ModelMapper modelMapper;
+    private final SpaceServiceInterface spaceService;
     final Logger logger =
             LoggerFactory.getLogger(TeamService.class);
     private final OrganizationPublishService organizationPublishService;
 
     @Autowired
-    public TeamService(TeamRepository teamRepository, TeamMembersRepository teamMembersRepository, OrganizationRepository organizationRepository, TeamInvitesRepository teamInvitesRepository, OrganizationPublishService publishService, OrganizationPublishService organizationPublishService) {
+    public TeamService(TeamRepository teamRepository, TeamMembersRepository teamMembersRepository, OrganizationRepository organizationRepository, TeamInvitesRepository teamInvitesRepository, OrganizationPublishService publishService, ModelMapper modelMapper, SpaceService spaceService, OrganizationPublishService organizationPublishService) {
         this.teamRepository = teamRepository;
         this.teamMembersRepository = teamMembersRepository;
         this.organizationRepository = organizationRepository;
         this.teamInvitesRepository = teamInvitesRepository;
         this.publishService = publishService;
+        this.modelMapper = modelMapper;
+        this.spaceService = spaceService;
         this.organizationPublishService = organizationPublishService;
     }
+
 
     @Override
     public Mono<Team> saveTeam(TeamRequest team) {
@@ -57,26 +67,47 @@ public class TeamService implements TeamServiceInterface {
 
         Team newTeam = Team.builder()
                 .name(team.name())
-                .organization_id(team.organizationId())
+                .organizationId(team.organizationId())
                 .build();
 
         return teamRepository.save(newTeam)
-                .flatMap(savedTeam ->
-                        organizationRepository.findById(savedTeam.getOrganization_id())
-                                .flatMap(organization -> {
-                                    TeamMembers member = TeamMembers.builder()
-                                            .teamId(savedTeam.getTeam_id())
-                                            .role(TeamRole.OWNER)
-                                            .userId(organization.getOwnerId())
-                                            .build();
-                                    return teamMembersRepository.save(member)
-                                            .thenReturn(savedTeam);
-                                })
-                )
+                .flatMap(savedTeam -> {
+                    logger.debug("Team saved with ID: {}. Fetching organization details.", savedTeam.getTeam_id());
+
+                    return organizationRepository.findById(savedTeam.getOrganizationId())
+                            .switchIfEmpty( Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_02))))
+                            .flatMap(organization -> {
+                                logger.debug("Creating team member with owner role for user: {}", organization.getOwnerId());
+
+                                TeamMembers member = TeamMembers.builder()
+                                        .teamId(savedTeam.getTeam_id())
+                                        .role(TeamRole.OWNER)
+                                        .userId(organization.getOwnerId())
+                                        .build();
+
+                                return teamMembersRepository.save(member)
+                                        .flatMap(savedMember -> {
+                                            logger.debug("Team member created with ID: {}", savedMember.getId());
+
+
+                                            SpaceRequest defaultSpace = new SpaceRequest(
+                                                    savedTeam.getName() + "'s default space",
+                                                    "Team's default space",
+                                                    "default icon",
+                                                    savedTeam.getTeam_id(),
+                                                    null);
+
+                                            logger.debug("Creating default space for team: {}", savedTeam.getTeam_id());
+
+                                            return spaceService.createSpace(defaultSpace)
+                                                    .thenReturn(savedTeam);
+                                        });
+                            });
+                })
                 .doOnSuccess(savedTeam ->
-                        logger.info("Successfully saved team with ID: {}", savedTeam.getTeam_id()))
+                        logger.info("Successfully saved team with ID: {} and created default space", savedTeam.getTeam_id()))
                 .doOnError(error ->
-                        logger.error("Error occurred while saving team", error));
+                        logger.error("Error occurred during team creation process: {}", error.getMessage()));
     }
 
     @Override
@@ -91,7 +122,7 @@ public class TeamService implements TeamServiceInterface {
                     }
 
                     logger.info("Found team: {}", team.getName());
-                    return organizationRepository.findById(team.getOrganization_id())
+                    return organizationRepository.findById(team.getOrganizationId())
                             .flatMap(organization -> {
                                 logger.info("Found organization: {}", organization.getName());
 
@@ -122,5 +153,26 @@ public class TeamService implements TeamServiceInterface {
                             });
                 });
     }
+
+    @Override
+    public Flux<TeamsDto> getOrgTeams(UUID orgId) {
+        return teamRepository.findAllByOrganizationId(orgId)
+                .flatMap(team -> {
+                    Mono<List<SpaceDto>> spacesMono = spaceService.getSpaces(team.getTeam_id()).collectList();
+
+                    Mono<List<TeamMembersDto>> membersMono = teamMembersRepository.findAllByTeamId(team.getTeam_id())
+                            .map(member -> modelMapper.map(member, TeamMembersDto.class))
+                            .collectList();
+
+                    return Mono.zip(spacesMono, membersMono)
+                            .map(tuple -> new TeamsDto(
+                                    team.getTeam_id(),
+                                    team.getName(),
+                                    tuple.getT1(),
+                                    tuple.getT2()
+                            ));
+                });
+    }
+
 
 }

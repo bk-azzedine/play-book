@@ -1,9 +1,14 @@
 package org.atlas.interfaces;
 
-import reactor.core.publisher.Mono;
+import org.atlas.dtos.UserDto;
+import reactor.core.publisher.Flux;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserServiceInterface {
-    Mono<UUID> getUserByEmail(String email);
+
+
+
+    Flux<UserDto> getDocAuthors(List<UUID> ids);
 }

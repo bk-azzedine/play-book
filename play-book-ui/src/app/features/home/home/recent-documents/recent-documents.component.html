@@ -1,4 +1,4 @@
-<div class="flex flex-col space-y-6">
+<div  class="flex flex-col p-5 space-y-6">
   <div>
     <span class="text-black text-xl font-bold">Welcome back, continue where you left off</span>
   </div>
@@ -14,15 +14,17 @@
           </button>
           <button hlmBtn variant="default"  class="w-24 h-8 hover:bg-accent hover:text-accent-foreground flex flex-row space-x-2">
             <ng-icon name="lucidePlus" size="17" strokeWidth="4" ></ng-icon>
-            <span class="text-bg-primary font-medium relative bottom-0.5">Create</span>
+            <span class="text-bg-primary font-medium relative bottom-0.5" (click)="create()">Create</span>
           </button>
 
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <app-doc-card *ngFor="let doc of docs" [documentSignal]="doc"></app-doc-card>
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <app-doc-card *ngFor="let doc of docs" [documentSignal]="doc"></app-doc-card>
+      </div>
+
   </div>
+
 </div>

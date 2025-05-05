@@ -115,7 +115,7 @@ public class JwtService implements JwtServiceInterface {
             );
 
             Token token = Token.builder()
-                    .userId(user.getUser_id())
+                    .userId(user.getUserId())
                     .tokenType(TokenType.ACCESS_TOKEN.toString())
                     .token(tokenString)
                     .expires(LocalDateTime.now().plusHours(10))
@@ -135,7 +135,7 @@ public class JwtService implements JwtServiceInterface {
                 false // No activation status or claims needed
         );
         return tokenRepository.save(Token.builder()
-                        .userId(user.getUser_id())
+                        .userId(user.getUserId())
                         .token(refresh)
                         .tokenType(TokenType.REFRESH_TOKEN.toString())
                         .expires(LocalDateTime.now().plusDays(10))

@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
 --font-sans: 'Inter'
 }
@@ -60,4 +59,36 @@ color-scheme: dark;
 * {
 @apply border-border;
 }
+}@layer base {
+  h1 {
+    font-size: 1.875rem; /* 30px */
+    line-height: 2.25rem; /* 36px */
+
+  }
+  h2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+
+  }
+  h3 {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+
+  }
+  h4 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
+
+  }
+  h5 {
+    font-size: 0.83rem; /* ~13px */
+    font-weight: bold;
+    margin: 1.67em 0;
+  }
+  h6 {
+    font-size: 0.67rem; /* ~11px */
+    font-weight: bold;
+    margin: 2.33em 0;
+  }
 }
+

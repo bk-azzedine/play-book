@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface SpaceMembersRepository extends ReactiveCrudRepository<SpaceMembers, UUID> {
     Flux<SpaceMembers> findAllByUserId(UUID userId);
+    Flux<SpaceMembers> findAllBySpaceId(UUID space);
 }

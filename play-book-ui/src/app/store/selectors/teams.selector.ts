@@ -1,13 +1,12 @@
-import {Company} from '../states/company/company.state';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {Team} from '../models/team.model';
-import {TeamsState} from '../states/team/team.state';
+import {CompanyState} from '../states/company.state';
 
-const selectTeams = createFeatureSelector<TeamsState>('team')
+
+const selectTeams = createFeatureSelector<CompanyState>('company')
 
 export const selectAllTeams = createSelector(
   selectTeams,
-  (state: TeamsState) => state.teams
+  (state: CompanyState) => state.selectedCompany?.teams
 );
 
 

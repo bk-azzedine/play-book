@@ -18,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static org.atlas.exceptions.Exceptions.*;
@@ -64,7 +66,7 @@ public class UserService implements UserServiceInterface {
                             .build();
                     logger.info("Saving new user: {}", user.getEmail());
                     return userRepository.save(user)
-                            .doOnSuccess(savedUser -> logger.info("User saved successfully: {}", savedUser.getUser_id()))
+                            .doOnSuccess(savedUser -> logger.info("User saved successfully: {}", savedUser.getUserId()))
                             .doOnError(err -> logger.error("Error saving user: {}", err.getMessage()));
                 });
     }
@@ -74,8 +76,8 @@ public class UserService implements UserServiceInterface {
     public Mono<SignUpResponse> registerUser(SignUpRequest signUpRequest) {
         logger.info("Registering user: {}", signUpRequest.email());
         return saveUser(signUpRequest)
-                .flatMap(user -> authService.generateActivationCode(user.getUser_id())
-                        .doOnSuccess(code -> logger.info("Activation code generated for user {}: {}", user.getUser_id(), code))
+                .flatMap(user -> authService.generateActivationCode(user.getUserId())
+                        .doOnSuccess(code -> logger.info("Activation code generated for user {}: {}", user.getUserId(), code))
                         .flatMap(code -> {
                             UserDto userDto = modelMapper.map(user, UserDto.class);
 
@@ -94,9 +96,9 @@ public class UserService implements UserServiceInterface {
 
                             return authService.generateToken(userDto)
                                     .doOnSuccess(token -> logger.info("Token generated for user: {}", user.getEmail()))
-                                    .map(token -> {
+                                    .map(tokenMap -> {
                                         logger.info("User registration completed for: {}", user.getEmail());
-                                        return new SignUpResponse(userDto, token);
+                                        return new SignUpResponse(userDto,  tokenMap.get("access" ), tokenMap.get("refresh"));
                                     });
                         })
                         .doOnError(err -> logger.error("Error during activation/token generation for user {}: {}", user.getEmail(), err.getMessage()))
@@ -132,5 +134,11 @@ public class UserService implements UserServiceInterface {
                             .map(savedUser -> true);
                 })
                 .doOnError(err -> logger.error("Error validating user {}: {}", userId, err.getMessage()));
+    }
+
+    @Override
+    public Flux<UserDto> getDocAuthors(List<UUID> userIds) {
+        return userRepository.findAllByUserIdIn(userIds)
+                .map(user -> modelMapper.map(user, UserDto.class));
     }
 }

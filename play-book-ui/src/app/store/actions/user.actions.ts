@@ -16,7 +16,7 @@ export const RegisterUser = createAction(
 
 export const RegisterSuccess = createAction(
   UserActionTypes.RegisterSuccess,
-  props<{user: User}>()
+  props<{token : string , user: User}>()
 );
 export const RegisterFailure = createAction(
   UserActionTypes.RegisterFailure,

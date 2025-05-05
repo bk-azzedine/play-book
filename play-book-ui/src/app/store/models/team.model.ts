@@ -1,5 +1,9 @@
+import {Space} from './Space.model';
+
+
 export interface Team {
-   teamId?: string;
-   name: string;
-   organizationId: string;
+  id?: string;
+  name: string;
+  companyId: string;
+  spaces: Space[] | null;
 }

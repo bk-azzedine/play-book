@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class Space {
     private String name;
     private String description;
     private String icon;
-    private UUID team_id;
+    @Column("team_id")
+    private UUID teamId;
 
 }

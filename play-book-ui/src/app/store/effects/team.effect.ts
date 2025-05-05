@@ -1,11 +1,14 @@
 import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-
-import {RegisterFailure, RegisterSuccess, CompanyActionTypes} from '../actions/company.actions';
-import {catchError, exhaustMap, map, of, tap} from 'rxjs';
+import {catchError, exhaustMap, map, of} from 'rxjs';
 import {TeamService} from '../../core/services/team/team.service';
-import {CreateFailure, CreateSuccess, InviteFailure, InviteSuccess, TeamActionTypes} from '../actions/team.actions';
-import {AuthActionTypes, ResendCodeComplete, ResendCodeFailure} from '../actions/auth.actions';
+import {
+ CreateTeamFailure,
+  CreateTeamSuccess,
+  InviteFailure,
+  InviteSuccess,
+  TeamActionTypes
+} from '../actions/team.actions';
 import {HttpErrorResponse} from '@angular/common/http';
 
 
@@ -20,10 +23,10 @@ export class TeamEffect {
       exhaustMap((action) =>
         this.teamService.registerTeam(action.team).pipe(
           map(team => {
-            return CreateSuccess({ team });
+            return CreateTeamSuccess({ team: team, companyId: action.team.companyId });
           }),
           catchError(error => {
-            return of(CreateFailure( error?.error.message ));
+            return of(CreateTeamFailure( error?.error.message ));
           })
         )
       )

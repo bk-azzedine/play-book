@@ -9,7 +9,6 @@ import {RouterOutlet} from '@angular/router';
   imports: [
     NavComponent,
     SideComponent,
-    HlmAvatarComponent,
     HlmAvatarImports,
     RouterOutlet
   ],

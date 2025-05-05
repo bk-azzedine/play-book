@@ -1,16 +1,16 @@
 package org.atlas.services;
 
+import org.atlas.dtos.UserDto;
 import org.atlas.interfaces.UserServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 @Service
 public class UserService implements UserServiceInterface {
@@ -23,20 +23,22 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Mono<UUID> getUserByEmail(String email) {
-        logger.info("Sending user lookup request to: {}/{}", userClient.toString(), email);
+    public Flux<UserDto> getDocAuthors(List<UUID> ids) {
+        logger.info("Sending user lookup request to: {}/{}", userClient.toString(), ids);
         return userClient.get()
-                .uri("/security/" + email)
+                .uri(uriBuilder -> uriBuilder
+                        .path("/doc/authors")
+                        .queryParam("ids", ids)
+                        .build())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .map(response -> UUID.fromString((String) response.get("user_id")))
+                .bodyToFlux(UserDto.class)
                 .onErrorResume(WebClientResponseException.NotFound.class, ex -> {
-                    logger.error("User not found with email: {}", email);
-                    return Mono.empty();
+                    logger.error("Authors not found for email: {}", ids);
+                    return Flux.empty();
                 })
                 .onErrorResume(throwable -> {
-                    logger.error("Error finding user by email: {}", email, throwable);
-                    return Mono.empty();
+                    logger.error("Error fetching document authors for email: {}", ids, throwable);
+                    return Flux.empty();
                 });
     }
 }

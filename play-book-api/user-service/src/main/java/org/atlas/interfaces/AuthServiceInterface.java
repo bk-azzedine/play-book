@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface AuthServiceInterface {
 
 
-    Mono<String> generateToken(UserDto user);
+    Mono<HashMap<String, String>> generateToken(UserDto user);
 
     Mono<String> generateActivationCode(UUID userID);
 }

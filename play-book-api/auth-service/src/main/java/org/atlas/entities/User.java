@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    private UUID user_id;
+    private UUID userId;
     private String email;
     private String password;
     private String firstName;

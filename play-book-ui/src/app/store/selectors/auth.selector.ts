@@ -1,13 +1,19 @@
-import {Auth} from '../states/auth/auth.state';
+import {AuthState} from '../states/auth.state';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 
-const selectedAuth = createFeatureSelector<Auth>('auth')
+const selectedAuth = createFeatureSelector<AuthState>('auth')
 
 export const selectIsLoggedIn = createSelector(
   selectedAuth,
-  (state: Auth)=> state.isLoggedIn
+  (state: AuthState)=> state.isLoggedIn
 );
 export const selectToken = createSelector(
   selectedAuth,
-  (state: Auth)=> state.token
+  (state: AuthState)=> state.token
 );
+
+export const selectUserId = createSelector(
+  selectedAuth,
+  (state: AuthState)=> state.user?.userId
+);
+

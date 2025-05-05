@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class Team {
     @Id
     private UUID team_id;
     private String name;
-    private UUID organization_id;
+    @Column("organization_id")
+    private UUID organizationId;
 
 }

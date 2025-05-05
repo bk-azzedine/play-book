@@ -1,0 +1,5 @@
+main {
+  will-change: transform;
+  contain: paint;
+  -webkit-overflow-scrolling: touch;
+}

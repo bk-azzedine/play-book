@@ -24,8 +24,9 @@ public class Organization {
     @Column("owner_id")
     private UUID ownerId;
     private String name;
-
     private String field;
+    private String initial;
+    private String color;
 
 
 }

@@ -1,6 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Company} from '../models/company.model';
-import {CompanyActionTypes} from './company.actions';
+
 import {Team} from '../models/team.model';
 import {TeamInviteRequest} from '../../core/requests/team-invite.request';
 
@@ -13,16 +12,19 @@ export enum TeamActionTypes {
   InviteFailure = '[Team] Invite Failure',
 }
 
+
 export const CreateTeam = createAction(
-  TeamActionTypes.Create,
-  props<{ team: Team }>()
+  '[Team] Create Team',
+  props<{ team: Partial<Team>, companyId: string }>()
 );
-export const CreateSuccess = createAction(
-  TeamActionTypes.CreateSuccess,
-  props<{ team: Team }>()
+
+export const CreateTeamSuccess = createAction(
+  '[Team] Create Team Success',
+  props<{ team: Team, companyId: string }>()
 );
-export const CreateFailure = createAction(
-  TeamActionTypes.CreateFailure,
+
+export const CreateTeamFailure = createAction(
+  '[Team] Create Team Failure',
   props<{ error: any }>()
 );
 

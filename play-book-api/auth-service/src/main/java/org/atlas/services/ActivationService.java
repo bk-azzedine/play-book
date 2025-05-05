@@ -91,9 +91,9 @@ public class ActivationService implements ActivationServiceInterface {
         return customUserServiceDetails.findUserByEmail(email)
                 .doOnNext(user -> logger.info("User found with email: {}", email))
                 .flatMap(user -> {
-                    logger.debug("Generating new activation code for user ID: {}", user.getUser_id());
+                    logger.debug("Generating new activation code for user ID: {}", user.getUserId());
 
-                    return generateActivationCode(user.getUser_id())
+                    return generateActivationCode(user.getUserId())
                             .doOnNext(code -> logger.debug("Activation code generated successfully"))
                             .flatMap(code -> {
                                 HashMap<String, Object> map = new HashMap<>();
@@ -184,9 +184,9 @@ public class ActivationService implements ActivationServiceInterface {
      * Validate the user with the given activation code
      */
     private Mono<HashMap<String, Object>> validateUserWithCode(User user, String code) {
-        logger.debug("Looking up activation code for code: {} and user ID: {}", code, user.getUser_id());
+        logger.debug("Looking up activation code for code: {} and user ID: {}", code, user.getUserId());
 
-        return activationCodeRepository.findByCodeAndUserId(code, user.getUser_id())
+        return activationCodeRepository.findByCodeAndUserId(code, user.getUserId())
                 .flatMap(activationCode -> validateActivationCode(activationCode, user))
                 .switchIfEmpty(createErrorResponse("code_not_found"));
     }
@@ -199,22 +199,22 @@ public class ActivationService implements ActivationServiceInterface {
      */
     private Mono<HashMap<String, Object>> validateActivationCode(ActivationCode activationCode, User user) {
         if (activationCode == null) {
-            logger.warn("No activation code found for user ID: {}", user.getUser_id());
+            logger.warn("No activation code found for user ID: {}", user.getUserId());
             return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_05)));
         }
 
         if (activationCode.isUsed()) {
-            logger.warn("Activation code already used for user: {}", user.getUser_id());
+            logger.warn("Activation code already used for user: {}", user.getUserId());
             return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_07)));
         }
 
         if (activationCode.getExpiredAt().isBefore(LocalDateTime.now())) {
             logger.warn("Activation code expired at {} for user: {}",
-                    activationCode.getExpiredAt(), user.getUser_id());
+                    activationCode.getExpiredAt(), user.getUserId());
             return Mono.error(new Exception(ExceptionHandler.processEnum(EXCEPTION_06)));
         }
 
-        logger.debug("Activation code is valid, proceeding to validate user: {}", user.getUser_id());
+        logger.debug("Activation code is valid, proceeding to validate user: {}", user.getUserId());
 
         // Mark the activation code as used
         activationCode.setUsed(true);
@@ -230,13 +230,13 @@ public class ActivationService implements ActivationServiceInterface {
      * Perform user validation and generate new token if successful
      */
     private Mono<HashMap<String, Object>> performUserValidation(User user) {
-        return customUserServiceDetails.validateUser(user.getUser_id())
+        return customUserServiceDetails.validateUser(user.getUserId())
                 .flatMap(valid -> {
                     if (valid) {
-                        logger.info("Successfully validated user: {}", user.getUser_id());
+                        logger.info("Successfully validated user: {}", user.getUserId());
                         return generateNewTokenForUser(user);
                     } else {
-                        logger.warn("Failed to validate user: {}", user.getUser_id());
+                        logger.warn("Failed to validate user: {}", user.getUserId());
                         return createErrorResponse("validation_failed");
                     }
                 });

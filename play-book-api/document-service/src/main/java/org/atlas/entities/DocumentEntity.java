@@ -32,6 +32,12 @@ public class DocumentEntity {
 
     private Content content;
 
+    @Indexed
+    private String organization;
+
+    @Indexed
+    private String space;
+
     private List<String> authors = new ArrayList<>();
 
     @Indexed

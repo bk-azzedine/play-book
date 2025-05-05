@@ -59,6 +59,9 @@ export class OnboardingCompanyComponent  implements OnInit {
     const company: Company = {
       name: 'Default',
       field: 'DEFAULT',
+      teams: null,
+      color: undefined,
+      initial: undefined,
     }
     this.store.dispatch(RegisterCompany({company: company}));
   }

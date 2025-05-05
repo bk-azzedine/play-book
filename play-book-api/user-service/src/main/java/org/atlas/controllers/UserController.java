@@ -9,11 +9,16 @@ import org.atlas.responses.SignUpResponse;
 import org.atlas.services.AuthService;
 import org.atlas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -31,10 +36,19 @@ public class UserController {
     @PostMapping("/register")
     public Mono<ResponseEntity<UserDto>> register(@RequestBody SignUpRequest signUpRequest) {
         return userService.registerUser(signUpRequest)
-                .map(response -> ResponseEntity
-                        .status(HttpStatus.CREATED)
-                        .header("Authorization", "Bearer " + response.token())
-                        .body(response.user())
+                .map(response -> {
+                            ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", response.refreshToken())
+                                    .httpOnly(true)
+                                    .path("/")
+                                    .sameSite("Strict")
+                                    .maxAge(Duration.ofDays(10))
+                                    .build();
+                            return ResponseEntity
+                                    .status(HttpStatus.CREATED)
+                                    .header("Authorization", "Bearer " + response.accessToken())
+                                    .header(HttpHeaders.SET_COOKIE, String.valueOf(refreshTokenCookie))
+                                    .body(response.user());
+                        }
                 );
     }
 
@@ -62,6 +76,12 @@ public class UserController {
                         .status(HttpStatus.OK)
                         .body(response)
                 );
+    }
+
+    @GetMapping("/doc/authors")
+    public ResponseEntity<Flux<UserDto>> getDocAuthors(@RequestParam("ids") List<UUID> userIds) {
+        Flux<UserDto> authors = userService.getDocAuthors(userIds);
+        return ResponseEntity.ok(authors);
     }
 
 

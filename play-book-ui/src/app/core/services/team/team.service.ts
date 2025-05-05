@@ -17,11 +17,11 @@ export class TeamService {
       map(data => {
         if (data) {
           const team: Team = {
-            teamId: data.body?.team_id,
+            id: data.body?.team_id,
             name: data.body?.name,
-            organizationId: data.body?.organization_id,
+            companyId: data.body?.organization_id,
+            spaces : null
           };
-          console.log(team);
           return team;
         }
         throw new Error('No data received from the server');

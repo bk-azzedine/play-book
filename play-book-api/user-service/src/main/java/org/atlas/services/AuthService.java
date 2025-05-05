@@ -7,6 +7,7 @@ import org.atlas.exceptions.ExceptionHandler;
 import org.atlas.interfaces.AuthServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.UUID;
 
 import static org.atlas.exceptions.Exceptions.EXCEPTION_02;
@@ -29,7 +31,7 @@ public class AuthService implements AuthServiceInterface {
     }
 
     @Override
-    public Mono<String> generateToken(UserDto user) {
+    public Mono<HashMap<String, String>> generateToken(UserDto user) {
         String uri = "/generate/token";
         log.info("Initiating token generation for user: {}", user.getEmail());
 
@@ -37,7 +39,7 @@ public class AuthService implements AuthServiceInterface {
                 .uri(uri)
                 .bodyValue(user)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(new ParameterizedTypeReference<HashMap<String, String>>() {})
                 .doOnSubscribe(subscription -> log.info("Sending POST request to {}{}", authWebClient.toString(), uri))
                 .doOnNext(token -> log.info("Received token successfully"))
                 .doOnError(error -> log.error("Token generation failed: {}", error.getMessage(), error))
@@ -56,7 +58,7 @@ public class AuthService implements AuthServiceInterface {
                 .timeout(Duration.ofSeconds(3))
                 .onErrorMap(error -> {
                     log.error("Final error after retries in token generation: {}", error.getMessage());
-                    throw new Exception(ExceptionHandler.processEnum(EXCEPTION_02));
+                    return new Exception(ExceptionHandler.processEnum(EXCEPTION_02));
                 });
     }
 

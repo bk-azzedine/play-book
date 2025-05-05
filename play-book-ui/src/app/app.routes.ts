@@ -25,6 +25,11 @@ import {
 } from './features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component';
 import {HomePageComponent} from './features/home/home-page/home-page.component';
 import {RecentDocumentsComponent} from './features/home/home/recent-documents/recent-documents.component';
+import {ViewDocumentComponent} from './features/home/home/view-document/view-document.component';
+import {CreateDocumentComponent} from './features/home/home/create-document/create-document.component';
+import {
+  ChooseOrganizationPageComponent
+} from './features/choose-organization/choose-organization-page/choose-organization-page.component';
 
 
 export const routes: Routes = [
@@ -63,10 +68,23 @@ export const routes: Routes = [
     canActivate: [tokenGuard, onboardingGuard]
   },
   {
+    path: 'organizations',
+    component : ChooseOrganizationPageComponent
+  },
+
+  {
     path:'home',
     children:[
       {path:'',
          component: RecentDocumentsComponent,
+      },
+      {
+        path: "view",
+        component: ViewDocumentComponent,
+      },
+      {
+        path: "create",
+        component: CreateDocumentComponent,
       }
     ],
     component: HomePageComponent

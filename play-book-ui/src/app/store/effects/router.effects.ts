@@ -21,6 +21,13 @@ export class RouterEffects {
       ),
     { dispatch: false }
   );
+  logOut$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(AuthActionTypes.Logout),
+        tap(action => this.router.navigate(['login'])),
+      ),
+    { dispatch: false }
+  );
 
   validateAccount$ = createEffect(() =>
       this.actions$.pipe(
@@ -32,7 +39,7 @@ export class RouterEffects {
   login$ = createEffect(() =>
       this.actions$.pipe(
         ofType(AuthActionTypes.LoginSuccess),
-        tap(action => this.router.navigate(['home'])),
+        tap(action => this.router.navigate(['organizations'])),
       ),
     { dispatch: false }
   );
@@ -41,6 +48,13 @@ export class RouterEffects {
       this.actions$.pipe(
         ofType(CompanyActionTypes.RegisterSuccess),
         tap(action => this.router.navigate(['onboarding/teams'])),
+      ),
+    { dispatch: false }
+  );
+  navigateToCompany$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CompanyActionTypes.SelectCompany),
+        tap(action => this.router.navigate(['/home'])),
       ),
     { dispatch: false }
   );

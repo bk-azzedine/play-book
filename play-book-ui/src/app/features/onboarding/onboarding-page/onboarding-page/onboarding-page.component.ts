@@ -1,16 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ProgressBarComponent} from '../../shared/progress-bar/progress-bar.component';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
-import {CommService} from '../../../../core/services/comm/comm.service';
-import {Navigate} from '../../../../store/actions/router.actions';
 import {Store} from '@ngrx/store';
-import {OnboardingWelcomeComponent} from '../../onboarding-components/onboarding-welcome/onboarding-welcome.component';
-import {RegisterCompany} from '../../../../store/actions/company.actions';
-import {CreateTeam} from '../../../../store/actions/team.actions';
-import {selectCompanyId} from '../../../../store/selectors/company.selector';
-import {filter, take} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {map} from 'rxjs';
-import {Team} from '../../../../store/models/team.model';
 
 @Component({
   selector: 'app-onboarding-page',

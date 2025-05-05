@@ -13,23 +13,18 @@ export class UserService {
   private httpService = inject(HttpService);
   store = inject(Store);
 
-  register(user: User): Observable<User> {
+  register(user: User): Observable<{ token: string, user: User }> {
     return this.httpService.post<any>("user/register", user).pipe(
-      map((res) => {
+      map((res: HttpResponse<any>) => {
         const token: string | null = res.headers.get('Authorization');
-        if (token) {
-          this.store.dispatch(LoginSuccess({ token }));
+        const user: User  = res.body;
+        if (!token) {
+          throw new Error('Authorization token is missing from the response headers.');
         }
-        const user: User = {
-          user_id: res.body.user_id,
-          firstName: res.body.firstName,
-          lastName: res.body.lastName,
-          email: res.body.email
-        };
-        return user;
+        return { token, user };
       }),
       catchError((error) => {
-        return throwError(()=> error);
+        return throwError(() => error);
       })
     );
   }
