@@ -1,0 +1,43 @@
+<!-- Organization Card Component with Navigation -->
+<section
+  hlmCard
+  class="bg-[#F1F0FC] rounded-lg p-6 border-none shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer relative hover:-translate-y-0.5 flex flex-col h-48"
+  style="box-shadow: -77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10);"
+  onmouseover="this.style.boxShadow='-77px 36px 30px 0px rgba(117, 117, 117, 0.01), -49px 23px 28px 0px rgba(117, 117, 117, 0.03), -28px 13px 24px 0px rgba(117, 117, 117, 0.08), -12px 6px 18px 0px rgba(117, 117, 117, 0.12), -3px 1px 10px 0px rgba(117, 117, 117, 0.15)'"
+  onmouseout="this.style.boxShadow='-77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10)'"
+  (click)="selectOrganization(org)"
+>
+  <div class="font-semibold text-lg text-black mb-2" hlmCardTitle>
+    {{ org.name }}
+  </div>
+  <div class="text-sm text-gray-600 mb-4" hlmCardDescription>
+    {{ org.field }}
+  </div>
+  <div class="text-xs text-gray-500 flex items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-4 h-4 mr-1"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+    {{ org.teams?.length || 0 }} teams
+  </div>
+
+  <!-- Dynamic badge with initials and automatic text color based on background contrast -->
+  <div
+    class="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200"
+    [style.backgroundColor]="org.color"
+    [ngClass]="isLightColor(org.color) ? 'text-slate-900' : 'text-white'"
+  >
+    {{ org.initial }}
+  </div>
+</section>

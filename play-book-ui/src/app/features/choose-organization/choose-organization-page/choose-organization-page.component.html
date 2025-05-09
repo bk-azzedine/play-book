@@ -1,0 +1,29 @@
+<header>
+  <app-mini-nav></app-mini-nav>
+</header>
+
+<main class="container mx-auto px-4 py-6">
+  <div class="flex flex-col space-y-8">
+    <div>
+      <h2 class="text-2xl font-bold  mb-8">Choose an organization to continue</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ng-container *ngFor="let org of orgs">
+        <app-companies [org]="org"></app-companies>
+      </ng-container>
+    </div>
+
+    <div class="flex justify-center mt-8">
+      <button
+        class="bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md px-6 py-3 text-sm flex items-center space-x-2 transition-colors">
+        <svg   xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd"/>
+        </svg>
+        <span>Create New Organization</span>
+      </button>
+    </div>
+  </div>
+</main>

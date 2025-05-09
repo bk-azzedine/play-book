@@ -1,0 +1,194 @@
+<div class="flex flex-col w-full h-full">
+  <div class="flex flex-col lg:flex-row w-full h-full">
+
+    <!-- Left Section: Full width on mobile, 2/3 on desktop (Breadcrumbs + Main content) -->
+    <div class="w-full lg:w-2/3 flex flex-col pt-4 lg:pt-10 px-4 lg:pl-5 lg:pr-3 space-y-4 lg:space-y-8">
+      <!-- Breadcrumbs - hidden on small screens -->
+      <nav hlmBreadcrumb class="hidden sm:flex">
+        <ol hlmBreadcrumbList>
+          <li hlmBreadcrumbItem>
+            <a hlmBreadcrumbLink link="/home" class="text-black font-medium">Home</a>
+          </li>
+          <li hlmBreadcrumbSeparator></li>
+          <li hlmBreadcrumbItem [brnMenuTriggerFor]="breadcrumbDropdown">
+            <div class="flex items-center gap-1">
+              <a hlmBreadcrumbLink class="text-black font-medium">
+                {{ selectedSpace ? selectedSpace.name : 'Spaces' }}
+              </a>
+              <ng-icon hlm size="sm" name="lucideChevronDown" />
+            </div>
+          </li>
+          <li hlmBreadcrumbSeparator></li>
+          <ng-container *ngIf="!isEditing">
+    <span hlmBreadcrumbPage class="text-black font-medium "
+          (dblclick)="startEditing()">
+      {{ documentEdit.title }}
+    </span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditing">
+            <input
+              #titleInput
+              hlmInput
+              type="text"
+              class="w-auto min-w-[100px] max-w-[300px] h-6 rounded-sm focus:outline-none px-1 py-0.5 text-sm text-black font-medium border border-input"
+              [(ngModel)]="documentEdit.title"
+              (blur)="saveTitle()"
+              (keydown)="onKeyDown($event)"
+              placeholder="Enter document title"
+            />
+          </ng-container>
+        </ol>
+      </nav>
+      <!-- Main content -->
+      <div class="flex-grow">
+        <div class="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0">
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2">
+              <ng-icon name="bootstrapClock"></ng-icon>
+              <span class="text-sm pb-0.5">4 min</span>
+            </div>
+
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+
+            <div class="flex items-center -space-x-2">
+              <ng-container *ngFor="let author of authors; let i = index">
+                <div
+                  class="rounded-full w-6 h-6 flex items-center justify-center text-white font-bold text-xs"
+                  [class]="author.color"
+                  [style.z-index]="authors.length - i">
+                  {{ author.initials }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2">
+              <ng-icon name="bootstrapEye"></ng-icon>
+              <span class="text-sm pb-0.5 hidden sm:inline">preview</span>
+            </div>
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+            <div>
+              <ng-icon name="bootstrapCloud"></ng-icon>
+            </div>
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+            <button hlmBtn variant="default"
+                    class="hover:bg-accent hover:text-accent-foreground flex items-center justify-center h-8 w-20"
+                    (click)="saveEditorContent()">
+              <span class="font-medium">Save</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 lg:mt-8">
+          <!-- EditorJS container -->
+          <div id="editorjs" class="min-h-[300px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section: Tabs for mobile (below editor), sidebar for desktop -->
+    <!-- Mobile TOC/Comments Tabs - shown at bottom on small screens, hidden on large screens -->
+    <div class="block lg:hidden border-t mt-4 pt-2">
+      <div class="flex justify-center flex-row space-x-4 sm:space-x-12 w-full mb-2">
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4"
+                [class.bg-secondary]="activeTab === 'toc'"
+                (click)="setActiveTab('toc')">
+          <ng-icon name="lucideList" size="16 sm:20"></ng-icon>
+          <span class="font-medium text-sm sm:text-base">Contents</span>
+        </button>
+
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4"
+                [class.bg-secondary]="activeTab === 'comments'"
+                (click)="setActiveTab('comments')">
+          <ng-icon name="bootstrapChat" size="16 sm:20"></ng-icon>
+          <span class="font-medium text-sm sm:text-base">Comments</span>
+        </button>
+      </div>
+
+      <!-- Mobile Tab Content -->
+      <div class="px-4 py-6 bg-[#F1F0FC]">
+        <!-- Table of Contents content -->
+        <div class="flex flex-col items-center justify-center text-center" *ngIf="activeTab === 'toc'">
+          <div class="mb-3">
+            <ng-icon name="bootstrapClipboard" size="32 sm:40"></ng-icon>
+          </div>
+          <p class="mb-1 text-sm sm:text-base">You don't have any content yet, write something, use</p>
+          <p class="text-sm sm:text-base">headers to easily navigate through it</p>
+        </div>
+
+        <!-- Comments content -->
+        <div class="flex flex-col items-center justify-center text-center"
+             *ngIf="activeTab === 'comments'">
+          <div class="mb-3">
+            <ng-icon name="bootstrapChat" size="32 sm:40"></ng-icon>
+          </div>
+          <p class="mb-1 text-sm sm:text-base">There are no comments yet</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Right Section: 1/3 - hidden on small screens, visible on large screens -->
+    <div
+      class="hidden lg:flex w-1/3 bg-[#F1F0FC] flex-col shadow-['-160px_160px_63px_0px_rgba(241,_240,_252,_0.01),_-102px_102px_58px_0px_rgba(241,_240,_252,_0.07),_-57px_57px_49px_0px_rgba(241,_240,_252,_0.25),_-26px_26px_36px_0px_rgba(241,_240,_252,_0.43),_-6px_6px_20px_0px_rgba(241,_240,_252,_0.49)']">
+
+      <!-- Top navigation buttons -->
+      <div class="flex justify-center flex-row space-x-12 w-full mb-4 pt-5">
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-2"
+                [class.bg-secondary]="activeTab === 'toc'"
+                (click)="setActiveTab('toc')">
+          <ng-icon name="lucideList" size="20"></ng-icon>
+          <span class="font-medium">Table of contents</span>
+        </button>
+
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-2"
+                [class.bg-secondary]="activeTab === 'comments'"
+                (click)="setActiveTab('comments')">
+          <ng-icon name="bootstrapChat" size="20"></ng-icon>
+          <span class="font-medium">Comments</span>
+        </button>
+      </div>
+
+      <!-- Table of Contents content -->
+      <div class="flex-grow flex flex-col items-center justify-center text-center px-4" *ngIf="activeTab === 'toc'">
+        <div class="mb-4">
+          <ng-icon name="bootstrapClipboard" size="48"></ng-icon>
+        </div>
+        <p class="mb-1">You don't have any content yet, write something, use</p>
+        <p>headers to easily navigate through it</p>
+      </div>
+
+      <!-- Comments content -->
+      <div class="flex-grow flex flex-col items-center justify-center text-center px-4"
+           *ngIf="activeTab === 'comments'">
+        <div class="mb-4">
+          <ng-icon name="bootstrapChat" size="48"></ng-icon>
+        </div>
+        <p class="mb-1">There are no comments yet</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #breadcrumbDropdown>
+  <hlm-menu class="border-none p-4 bg-[#F1F0FC] rounded-md shadow-lg min-w-48 dropdown-animation">
+  <div >
+    <div class="space-y-3">
+      <div *ngFor="let space of spaces; let i = index"
+           class="flex items-center gap-3 menu-item cursor-pointer hover:bg-slate-100 p-2 rounded"
+           [style.animation-delay]="(i * 50) + 'ms'"
+           (click)="selectSpace(space)">
+        <span>{{ space.name }}</span>
+      </div>
+      <div *ngIf="spaces?.length === 0" class="text-gray-500 py-2">
+        No spaces available
+      </div>
+    </div>
+  </div>
+  </hlm-menu>
+</ng-template>
+
