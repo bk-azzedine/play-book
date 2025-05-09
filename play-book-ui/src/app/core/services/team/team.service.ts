@@ -20,7 +20,9 @@ export class TeamService {
             id: data.body?.team_id,
             name: data.body?.name,
             companyId: data.body?.organization_id,
-            spaces : null
+            spaces : data.body?.spaces,
+            members: data.body?.members
+
           };
           return team;
         }

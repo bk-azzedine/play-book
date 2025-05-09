@@ -17,9 +17,10 @@ import {companyReducer} from './store/reducers/company.reducer';
 import {TeamEffect} from './store/effects/team.effect';
 import {DocumentEffects} from './store/effects/document.effects';
 import {CookieService} from 'ngx-cookie-service';
-import { principalStorageMetaReducer} from './store/reducers/meta-reducers/auth.meta-reducer';
+import {userStorageMetaReducer} from './store/reducers/meta-reducers/auth.meta-reducer';
 import {companyStorageMetaReducer} from './store/reducers/meta-reducers/company.meta-reducer';
 import {documentReducer} from './store/reducers/document.reducer';
+import {appMetaReducer} from './store/reducers/meta-reducers/app.meta.reducer';
 
 
 export const appConfig: ApplicationConfig = {
@@ -34,8 +35,9 @@ export const appConfig: ApplicationConfig = {
       },
       {
         metaReducers: [
-          principalStorageMetaReducer,
-          companyStorageMetaReducer
+          userStorageMetaReducer,
+          companyStorageMetaReducer,
+          appMetaReducer
         ]
       }
     ),

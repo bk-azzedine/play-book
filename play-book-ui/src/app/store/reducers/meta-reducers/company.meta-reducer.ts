@@ -1,11 +1,9 @@
 import { ActionReducer } from '@ngrx/store';
 
-const STORAGE_KEY = 'organization';
+const STORAGE_KEY = 'selectedCompany';
 
 export function companyStorageMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {
-
-
     // Rehydrate state from localStorage
     if (state === undefined) {
       // Instead of trying to modify undefined state, just proceed
@@ -22,33 +20,33 @@ export function companyStorageMetaReducer(reducer: ActionReducer<any>): ActionRe
 
       if (saved) {
         try {
-          const orgId = JSON.parse(saved);
-          console.log('Restoring organization:', orgId);
+          const selectedCompanyData = JSON.parse(saved);
+          console.log('Restoring selected company:', selectedCompanyData);
 
-          // Create a new state object with the stored organization
+          // Create a new state object with the stored company data
           // This approach modifies the state after the reducer has run
           if (nextState && nextState.company) {
             nextState = {
               ...nextState,
               company: {
                 ...nextState.company,
-                selectedCompany: {
-                  ...(nextState.company.selectedCompany || {}),
-                  organizationId: orgId
-                }
+                selectedCompany: selectedCompanyData
               }
             };
           }
         } catch (e) {
-          console.error('Error parsing organization from localStorage:', e);
+          console.error('Error parsing selected company from localStorage:', e);
         }
       }
     }
 
-    const orgId = nextState?.company?.selectedCompany?.organizationId;
+    // Save the complete selectedCompany object to localStorage
+    const selectedCompany = nextState?.company?.selectedCompany;
 
-    if (orgId) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(orgId));
+    if (selectedCompany) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCompany));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
     }
 
     return nextState;

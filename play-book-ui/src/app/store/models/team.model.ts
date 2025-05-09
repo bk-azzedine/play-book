@@ -1,4 +1,5 @@
 import {Space} from './Space.model';
+import {TeamMember} from './team-members.model';
 
 
 export interface Team {
@@ -6,4 +7,5 @@ export interface Team {
   name: string;
   companyId: string;
   spaces: Space[] | null;
+  members: TeamMember[] | null;
 }

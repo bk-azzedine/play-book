@@ -1,5 +1,4 @@
 import {Component, inject, OnInit, output} from '@angular/core';
-import {ProgressBarComponent} from "../../shared/progress-bar/progress-bar.component";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {BrnSelectImports} from '@spartan-ng/brain/select';
 import {HlmSelectImports} from '@spartan-ng/ui-select-helm';
@@ -9,7 +8,6 @@ import {HlmInputDirective} from '@spartan-ng/ui-input-helm';
 import {HlmButtonDirective} from '@spartan-ng/ui-button-helm';
 import {NgIf} from '@angular/common';
 import {Company} from '../../../../store/models/company.model';
-import {CommService} from '../../../../core/services/comm/comm.service';
 import {Store} from '@ngrx/store';
 import {RegisterCompany, RegisterSuccess} from '../../../../store/actions/company.actions';
 import {HlmToasterComponent} from '@spartan-ng/ui-sonner-helm';
@@ -37,7 +35,6 @@ import {toast} from 'ngx-sonner';
 })
 export class OnboardingCompanyComponent  implements OnInit {
   formBuilder = inject(FormBuilder);
-  commService = inject(CommService);
   store = inject(Store);
   actions$ = inject(Actions);
   private destroy$ = new Subject<void>();

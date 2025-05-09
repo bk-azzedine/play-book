@@ -3,7 +3,7 @@ import {AuthState} from './auth.state';
 import {DocumentState} from './document.state';
 
 export interface AppState {
-  company: CompanyState | null;
-  auth: AuthState | null;
-  documents: DocumentState | null;
+  company: CompanyState;
+  auth: AuthState ;
+  documents: DocumentState ;
 }

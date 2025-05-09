@@ -30,4 +30,6 @@ public class DocumentController {
         Flux<DocumentDto> docs = documentService.getRecentUserDocs(organization, user);
         return Mono.just(ResponseEntity.ok().body(docs));
     }
+
+
 }

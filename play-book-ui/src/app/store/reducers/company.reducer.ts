@@ -8,7 +8,6 @@ import {
 } from '../actions/team.actions';
 
 import { CompanyState } from '../states/company.state';
-import {LogoutConfirmed} from '../actions/auth.actions';
 
 export const initialCompanyState: CompanyState = {
   selectedCompany: null,
@@ -75,15 +74,7 @@ export const companyReducer = createReducer(
       selectedCompany: updatedSelectedCompany,
       companies: updatedCompanies
     };
-  }),
-
-  on(LogoutConfirmed, (state): CompanyState => ({
-    ...state,
-    selectedCompany: null,
-    companies: [],
-    loading: false,
-    error: null
-  }))
+  })
 
 );
 

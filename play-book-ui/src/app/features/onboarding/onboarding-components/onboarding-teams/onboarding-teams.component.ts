@@ -43,7 +43,8 @@ export class OnboardingTeamsComponent {
         const team  : Team = {
           spaces: null,
           name : "Default",
-          companyId: company?.organizationId as string
+          companyId: company?.organizationId as string,
+          members: null,
         }
         this.store.dispatch(CreateTeam({team: team, companyId: company?.organizationId as string}));
       })
@@ -60,7 +61,9 @@ export class OnboardingTeamsComponent {
           const team : Team = {
             spaces: null,
             name : name as string,
-            companyId: company?.organizationId as string
+            companyId: company?.organizationId as string,
+            members: null
+
           }
           this.store.dispatch(CreateTeam({team: team, companyId: company?.organizationId as string}));
         })

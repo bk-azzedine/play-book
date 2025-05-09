@@ -4,11 +4,13 @@ import {bootstrapPerson} from '@ng-icons/bootstrap-icons';
 import {lucideLogOut} from '@ng-icons/lucide';
 import {Store} from '@ngrx/store';
 import {Logout} from '../../../../../../store/actions/auth.actions';
+import {HlmMenuComponent} from '@spartan-ng/ui-menu-helm';
 
 @Component({
   selector: 'app-user-menu',
   imports: [
-    NgIcon
+    NgIcon,
+    HlmMenuComponent
   ],
   providers: [
     provideIcons({bootstrapPerson, lucideLogOut})

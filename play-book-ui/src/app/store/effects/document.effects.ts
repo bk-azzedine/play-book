@@ -1,7 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, exhaustMap, map, of, tap, withLatestFrom} from 'rxjs';
-import {loadRecentDocumentsSuccess, loadRecentDocumentsFailure} from '../actions/document.actions';
+import {
+  loadRecentDocumentsSuccess,
+  loadRecentDocumentsFailure,
+  saveDocumentSuccess,
+  saveDocumentFailure
+} from '../actions/document.actions';
 import {DocumentActionTypes} from '../actions/document.actions';
 import {DocumentService} from '../../core/services/document/document.service';
 import {Store} from '@ngrx/store';
@@ -27,6 +32,20 @@ export class DocumentEffects {
           map(response => loadRecentDocumentsSuccess({ documents: response })),
           catchError(error => {
             return of(loadRecentDocumentsFailure(error));
+          })
+        )
+      )
+    );
+  });
+
+  saveDocument$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DocumentActionTypes.Save),
+      exhaustMap((action) =>
+        this.documentService.saveDocument(action.document).pipe(
+          map(response => saveDocumentSuccess({ document: response })),
+          catchError(error => {
+            return of(saveDocumentFailure(error));
           })
         )
       )
