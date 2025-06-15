@@ -1,0 +1,23 @@
+.badge-warning {
+  @apply bg-amber-100 text-amber-800;
+}
+
+.badge-info {
+  @apply bg-sky-100 text-sky-800;
+}
+
+.badge-light {
+  @apply bg-gray-100 text-gray-600;
+}
+
+.text-warning {
+  @apply text-amber-500;
+}
+
+.text-info {
+  @apply text-sky-500;
+}
+
+.text-muted {
+  @apply text-gray-400;
+}

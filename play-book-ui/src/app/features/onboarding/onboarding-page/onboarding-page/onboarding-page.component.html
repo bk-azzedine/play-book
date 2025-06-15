@@ -1,0 +1,11 @@
+<div class="relative h-screen w-screen">
+  <div class="absolute top-0 left-0 w-full">
+    <app-progress-bar [slideNumberInput]="number"></app-progress-bar>
+  </div>
+
+  <div class="flex items-center justify-center h-full px-4">
+    <div class="w-full max-w-md">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

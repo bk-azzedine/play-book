@@ -1,0 +1,105 @@
+<header>
+  <app-mini-nav></app-mini-nav>
+</header>
+
+<main class="container mx-auto px-4 py-6">
+  <hlm-toaster />
+  <div class="flex flex-col space-y-8">
+    <div>
+      <h2 class="text-2xl font-bold  mb-8">Choose an organization to continue</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ng-container *ngFor="let org of orgs">
+        <app-companies [org]="org"></app-companies>
+      </ng-container>
+    </div>
+
+    <div class="flex justify-center mt-8">
+
+      <button
+        hlmBtn
+        brnDialogTrigger
+        [brnDialogTriggerFor]="dialog"
+        (click)="$event.stopPropagation()"
+        class="w-54 h-12 hover:bg-accent hover:text-accent-foreground flex flex-row space-x-2">
+        <ng-icon name="lucidePlus" size="17" strokeWidth="4"></ng-icon>
+        <span>Create New Organization</span>
+      </button>
+    </div>
+  </div>
+
+  <brn-dialog #dialog>
+    <form
+      class="w-full flex flex-col items-center justify-center max-w-md mx-auto space-y-6"
+      [formGroup]="organizationForm"
+    >
+      <hlm-dialog-content *brnDialogContent="let ctx"
+                          class="sm:max-w-xl w-full bg-[#F1F0FC] border-none shadow-lg max-h-[75vh] flex flex-col">
+
+        <div class="bg-[#F1F0FC] p-3 rounded-t-lg">
+          <h3 class="text-xl font-bold text-black mb-4">Create a new Organization</h3>
+        </div>
+
+
+          <div class="p-3"> <div class="mb-5">
+            <label class="block text-sm font-medium text-black mb-2">Organization Name</label>
+            <input
+              hlmInput
+              id="name"
+              placeholder="Enter organization name"
+              formControlName="name"
+              class="w-full bg-background border border-indigo-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+            />
+            <hlm-error *ngIf="organizationForm.get('name')?.hasError('maxlength')">the max length for the name is 20
+              characters
+            </hlm-error>
+          </div>
+            <div class="mb-10">
+              <hlm-form-field class="flex flex-col space-y-2 w-full">
+                <label hlmLabel>Field</label>
+                <brn-select formControlName="field">
+                  <hlm-select-trigger class="w-full border-indigo-200 focus:border-indigo-500">
+                    <p *ngIf="!organizationForm.controls.field.value" class="text-black font-medium text-opacity-50">
+                      Field
+                    </p>
+                    <hlm-select-value/>
+                  </hlm-select-trigger>
+                  <hlm-select-content>
+                    <hlm-option value="LAW">Law</hlm-option>
+                    <hlm-option value="TECH">Tech</hlm-option>
+                    <hlm-option value="FINANCE">Finance</hlm-option>
+                    <hlm-option value="MEDICAL">Medical</hlm-option>
+                    <hlm-option value="SOFTWARE">Software</hlm-option>
+                  </hlm-select-content>
+                </brn-select>
+              </hlm-form-field>
+            </div>
+          </div>
+
+
+        <div class="flex w-full  gap-2 pl-28  bg-[#F1F0FC] rounded-b-lg">
+          <button
+            type="button"
+            hlmBtn
+            variant="outline"
+            class="border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+            (click)="ctx.close()">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            hlmBtn
+            (click)="saveOrganization()"
+            class="hover:bg-accent hover:text-accent-foreground flex items-center gap-1"
+          >
+            <ng-icon name="heroPlus" size="16" color="white"></ng-icon>
+            Create Space
+          </button>
+        </div>
+
+      </hlm-dialog-content>
+    </form>
+  </brn-dialog>
+</main>
+

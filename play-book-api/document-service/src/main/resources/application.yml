@@ -1,0 +1,19 @@
+server:
+  port: 8086
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: Bakaazzedine456
+    template:
+      default-receive-queue: document-queue
+      exchange: data-exchange
+  application:
+    name: document-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  config:
+    import: optional:configserver:http://localhost:8888

@@ -1,0 +1,25 @@
+server:
+  port: 8082
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: Bakaazzedine456
+    template:
+      exchange: data-exchange
+  application:
+    name: auth-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  config:
+    import: optional:configserver:http://localhost:8888
+
+jwt:
+  secret-key: VGhpc1NIaXRJc1RoZVNjcmV0S2V5Rm9yV2hhdGV2ZXI=
+  expiration-time: 864_000_000
+
+
+
+

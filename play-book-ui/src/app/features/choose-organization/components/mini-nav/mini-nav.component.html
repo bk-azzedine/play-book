@@ -1,0 +1,24 @@
+<header class="bg-[#F1F0FC] h-12" style="filter: drop-shadow(0px 11px 25px rgba(241, 240, 252, 0.49)) drop-shadow(0px 45px 45px rgba(241, 240, 252, 0.43)) drop-shadow(0px 100px 60px rgba(241, 240, 252, 0.25)) drop-shadow(0px 178px 71px rgba(241, 240, 252, 0.07)) drop-shadow(0px 279px 78px rgba(241, 240, 252, 0.01));">
+  <nav class="mx-auto flex items-center justify-between p-2" aria-label="Global">
+    <div >
+      <h1 class="text-2xl font-extrabold text-black">PlayBook</h1>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <button class="text-black">
+        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+        </svg>
+      </button>
+      <div>
+        <hlm-avatar variant="small" [brnMenuTriggerFor]="userMenu">
+          <span class="bg-primary text-white" hlmAvatarFallback>JD</span>
+        </hlm-avatar>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<ng-template #userMenu>
+  <app-user-menu></app-user-menu>
+</ng-template>

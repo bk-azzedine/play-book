@@ -1,0 +1,6 @@
+org\atlas\configs\RabbitMQConfig.class
+org\atlas\listners\Listener.class
+org\atlas\interfaces\EmailServiceInterface.class
+org\atlas\services\EmailService.class
+org\atlas\enums\Template.class
+org\atlas\EmailServiceApplication.class

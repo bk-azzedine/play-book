@@ -1,0 +1,20 @@
+<hlm-menu class="p-4 bg-[#F1F0FC] rounded-md shadow-lg min-w-48 border-none dropdown-animation">
+<div >
+  <button class="user-menu-item flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded">
+    <div class="flex items-center w-full">
+      <div class="icon-container flex items-center justify-center mr-3">
+        <ng-icon name="bootstrapPerson" size="20"/>
+      </div>
+      <span class="user-menu-text">profile</span>
+    </div>
+  </button>
+  <button class="user-menu-item flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded">
+    <div class="flex items-center w-full">
+      <div class="icon-container flex items-center justify-center mr-3">
+        <ng-icon name="lucideLogOut" size="20"/>
+      </div>
+      <span class="user-menu-text" (click)="logOut()">log out</span>
+    </div>
+  </button>
+</div>
+</hlm-menu>

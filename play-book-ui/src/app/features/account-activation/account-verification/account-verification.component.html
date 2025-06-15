@@ -1,0 +1,47 @@
+<div>
+  <form
+    class="w-full flex flex-col items-center justify-center max-w-md mx-auto space-y-6"
+    [formGroup]="activationForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-xl font-bold mb-1">Confirm your email.</h1>
+      <span>We sent a verification code to your email, enter it below:</span>
+    </div>
+
+    <div class="flex flex-col space-y-2 w-full">
+      <input
+        hlmInput
+        class="w-full border-black"
+        type="text"
+        placeholder="Verification Code"
+        formControlName="code"
+      />
+      <hlm-error *ngIf="verificationError">{{ verificationError.toLowerCase() }}</hlm-error>
+      <label *ngIf="message" class="text-black font-normal text-opacity-100">
+        {{ message.toLowerCase() }}
+      </label>
+    </div>
+
+    <div class="w-full">
+      <button
+        hlmBtn
+        class="w-full hover:bg-accent hover:text-accent-foreground"
+        type="submit"
+      >
+        Verify
+      </button>
+    </div>
+
+    <div class="w-full">
+      <button
+        hlmBtn
+        class="w-full text-black"
+        variant="link"
+        (click)="onSubmitResent()"
+      >
+        Resend
+      </button>
+    </div>
+  </form>
+</div>

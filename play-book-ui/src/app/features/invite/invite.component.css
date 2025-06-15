@@ -1,0 +1,25 @@
+/* Component-specific styles if needed */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .flex.gap-4 {
+    flex-direction: column;
+  }
+
+  .flex.items-center.gap-4 {
+    flex-direction: column;
+    text-align: center;
+  }
+}

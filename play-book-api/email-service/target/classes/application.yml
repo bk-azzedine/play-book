@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: email-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  config:
+    import: optional:configserver:http://localhost:8888
+  mail:
+    host: localhost
+    port: 1025
+    username: azzedine
+    password: Bakaazzedine456
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: Bakaazzedine456
+    template:
+      default-receive-queue: email-queue
+      exchange: data-exchange
+
+server:
+  port: 8085

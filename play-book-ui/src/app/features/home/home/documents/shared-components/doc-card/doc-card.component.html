@@ -1,0 +1,43 @@
+<section hlmCard class="bg-[`#F1F0FC`] rounded-lg p-4 relative border border-none transition-all duration-300 hover:cursor-pointer hover:translate-y-[-4px] h-{{height()}} w-{{width()}} flex flex-col" style="box-shadow: -77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10);" onmouseover="this.style.boxShadow='-77px 36px 30px 0px rgba(117, 117, 117, 0.01), -49px 23px 28px 0px rgba(117, 117, 117, 0.03), -28px 13px 24px 0px rgba(117, 117, 117, 0.08), -12px 6px 18px 0px rgba(117, 117, 117, 0.12), -3px 1px 10px 0px rgba(117, 117, 117, 0.15)'" onmouseout="this.style.boxShadow='-77px 36px 24px 0px rgba(117, 117, 117, 0.00), -49px 23px 22px 0px rgba(117, 117, 117, 0.01), -28px 13px 18px 0px rgba(117, 117, 117, 0.05), -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10)'">
+  <div hlmCardHeader class="mb-2">
+    <div class="flex justify-between items-start">
+      <brn-hover-card>
+        <h3 hlmCardTitle class="text-xl font-bold text-black mb-2 line-clamp-1 cursor-pointer" brnHoverCardTrigger>{{ doc()?.title }}</h3>
+        <hlm-hover-card-content *brnHoverCardContent class="w-80 border-none rounded-lg shadow-lg" style="background-color: `#F1F0FC`; box-shadow: -12px 6px 14px 0px rgba(117, 117, 117, 0.09), -3px 1px 7px 0px rgba(117, 117, 117, 0.10);">
+          <div class="p-4">
+            <h4 class="text-lg font-bold text-black">{{ doc()?.title }}</h4>
+            <p class="text-sm text-black mt-2">{{ doc()?.description }}</p>
+          </div>
+        </hlm-hover-card-content>
+      </brn-hover-card>
+
+      <!-- Multiple author avatars with overlap -->
+      <div class="flex -space-x-2">
+        <ng-container *ngFor="let author of doc()?.authors?.slice(0, 3); let i = index">
+          <div class="rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 border-2 border-white"
+               [style.background-color]="getAvatarColor(author?.userId || '')"
+               [style.z-index]="3-i">
+            {{ getInitials(author?.firstName, author?.lastName) }}
+          </div>
+        </ng-container>
+        <div *ngIf="(doc()?.authors?.length ?? 0) > 3"
+             class="rounded-full w-8 h-8 flex items-center justify-center bg-gray-200 text-gray-600 font-bold text-xs flex-shrink-0 border-2 border-white"
+             style="z-index: 0">
+          +{{ (doc()?.authors?.length ?? 0) - 3 }}
+        </div>
+      </div>
+    </div>
+    <p hlmCardDescription class="text-sm text-black mb-4 overflow-hidden line-clamp-3">{{doc()?.description }}</p>
+  </div>
+
+  <div class="flex-grow"></div>
+
+  <div hlmCardFooter class="flex justify-between items-center mt-4">
+    <div class="flex flex-wrap gap-1">
+      <a *ngFor="let tag of doc()?.tags" target="_blank" class="bg-secondary text-black text-xs py-0.5 px-2 rounded-full inline-block whitespace-nowrap"  hlmBadge>{{ tag }}</a>
+    </div>
+    <p class="text-black text-xs">
+      <span style="font-size: 0.625rem;">last updated {{ getRelativeTime(doc()?.lastUpdated) }}</span>
+    </p>
+  </div>
+</section>

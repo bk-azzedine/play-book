@@ -1,0 +1,9 @@
+org\atlas\configs\SpringSecurityConfig.class
+org\atlas\configs\CorsConfig.class
+org\atlas\ApiGateway.class
+org\atlas\configs\WebClientConfig.class
+org\atlas\filters\SecurityFilter.class
+org\atlas\services\AuthService.class
+org\atlas\services\RouteValidatorService.class
+org\atlas\interfaces\AuthServiceInterface.class
+org\atlas\services\AuthService$1.class

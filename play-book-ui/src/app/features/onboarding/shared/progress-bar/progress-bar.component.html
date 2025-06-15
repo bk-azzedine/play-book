@@ -1,0 +1,7 @@
+<div  class="flex flex-row items-center justify-center space-x-2 pt-12"  >
+  <div *ngFor="let _ of progressBars; index as i" >
+    <brn-progress hlm class='w-40 h-2' aria-labelledby="loading" [value]="value">
+      <brn-progress-indicator hlm [ngClass]="i<slideNumber()? 'bg-primary':'bg-secondary'"/>
+    </brn-progress>
+  </div>
+</div>

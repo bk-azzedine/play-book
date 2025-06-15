@@ -1,0 +1,40 @@
+<section
+  hlmCard
+  class="bg-[#F1F0FC] rounded-lg p-2 relative border-none transition-all duration-300 hover:cursor-pointer hover:translate-y-[-3px] w-64 h-44 flex flex-col shadow-md hover:shadow-lg"
+>
+  <div hlmCardHeader class="p-2">
+    <div class="flex mb-1.5">
+      <ng-container *ngFor="let member of space()?.members?.slice(0, 3); let i = index">
+        <div
+          class="rounded-full w-6 h-6 flex items-center justify-center text-white font-medium text-[10px] flex-shrink-0 bg-purple-600"
+          [style.margin-left]="i > 0 ? '-3px' : '0'"
+          [style.backgroundColor]="getAvatarColor(space()?.spaceId)">
+
+          {{ getInitials(member?.user?.firstName, member?.user?.lastName) }}
+        </div>
+      </ng-container>
+      <div
+        *ngIf="(space()?.members?.length ?? 0) > 3"
+        class="rounded-full w-5 h-5 flex items-center justify-center bg-purple-600 text-white font-medium text-[10px] flex-shrink-0"
+        style="margin-left: -3px"
+      >
+        +{{ (space()?.members?.length ?? 0) - 3 }}
+      </div>
+
+      <div class="flex-grow"></div>
+      <button class="text-gray-600 h-5 w-5 flex items-center justify-center">
+        <ng-icon name="featherMoreVertical" size="16"></ng-icon>
+      </button>
+    </div>
+  </div>
+
+  <brn-separator decorative hlmSeparator orientation="horizontal" class="opacity-15 my-0.5" />
+
+  <div hlmCardContent class="p-2 pt-1.5 flex-grow">
+    <div class="flex items-center justify-start mb-1 flex-row space-x-1.5">
+      <ng-icon [name]="space()?.icon || 'heroBookOpen'" strokeWidth="2" size="20"></ng-icon>
+      <h3 class="font-semibold text-sm text-black truncate">{{ space()?.name }}</h3>
+    </div>
+    <p class="text-xs text-gray-600 line-clamp-2 leading-snug">{{ space()?.description }}</p>
+  </div>
+</section>

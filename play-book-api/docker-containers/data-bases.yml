@@ -1,0 +1,95 @@
+services:
+  users_DB:
+    container_name: users
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Bakaazzedine456
+      POSTGRES_DB: users
+      PGDATA: /data/postgres
+    volumes:
+      - user_postgres:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  document_DB:
+    container_name: documents
+    image: mongodb/mongodb-community-server:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=Bakaazzedine456
+    volumes:
+      - document-mango:/data/mango
+    ports:
+      - "27017:27017"
+    networks:
+      - mango
+    restart: unless-stopped
+  vector_db:
+    container_name: vectors
+    image: chromadb/chroma
+    ports:
+      - "8001:8000"
+    volumes:
+      - vector-chroma:/data/chroma
+    restart: unless-stopped
+  auth_DB:
+    container_name: auth
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Bakaazzedine456
+      POSTGRES_DB: users
+      PGDATA: /data/postgres
+    volumes:
+      - auth_postgres:/data/postgres
+    ports:
+      - "5435:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  organization_DB:
+    container_name: organizations
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Bakaazzedine456
+      POSTGRES_DB: users
+      PGDATA: /data/postgres
+    volumes:
+      - organization_postgres:/data/postgres
+    ports:
+      - "5434:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+  mango:
+    driver: bridge
+
+volumes:
+  organization_postgres:
+  user_postgres:
+  auth_postgres:
+  document-mango:
+  vector-chroma:
+  pgadmin:

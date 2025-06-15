@@ -1,0 +1,72 @@
+<div class="relative min-h-screen flex flex-col">
+  <hlm-toaster />
+  <form
+    [formGroup]="companyForm"
+    class="flex flex-1 flex-col items-center justify-center space-y-6 pb-14 max-w-md mx-auto w-full"
+  >
+    <div class="text-center">
+      <h1 class="text-xl font-bold mb-1">Tell us about your company!</h1>
+      <span>Help us set up your organization</span>
+    </div>
+
+    <div class="w-full">
+      <hlm-form-field class="w-full">
+        <label hlmLabel>Company Name
+          <input
+            hlmInput
+            formControlName="name"
+            class="w-full border-black"
+            type="text"
+            placeholder="Company Name"
+          />
+        </label>
+        <hlm-error>Required</hlm-error>
+      </hlm-form-field>
+    </div>
+
+    <div class="w-full">
+      <hlm-form-field class="flex flex-col space-y-2 w-full">
+        <label hlmLabel>Field</label>
+        <brn-select formControlName="field">
+          <hlm-select-trigger class="w-full border-black">
+            <p *ngIf="!companyForm.controls.field.value" class="text-black font-medium text-opacity-50">
+              Field
+            </p>
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content>
+            <hlm-option value="LAW">Law</hlm-option>
+            <hlm-option value="TECH">Tech</hlm-option>
+            <hlm-option value="FINANCE">Finance</hlm-option>
+            <hlm-option value="MEDICAL">Medical</hlm-option>
+            <hlm-option value="SOFTWARE">Software</hlm-option>
+          </hlm-select-content>
+        </brn-select>
+      </hlm-form-field>
+    </div>
+
+    <div class="flex flex-col space-y-2 w-full">
+      <div class="w-full">
+        <button
+          hlmBtn
+          class="hover:bg-accent hover:text-accent-foreground w-full"
+          type="submit"
+          (click)="onSubmit()"
+        >
+          Save And Continue
+        </button>
+      </div>
+      <div class="w-full">
+        <button
+          hlmBtn
+          class="w-full"
+          type="submit"
+          variant="link"
+          (click)="onSubmitSkip()"
+        >
+          Skip
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

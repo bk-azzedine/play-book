@@ -1,0 +1,17 @@
+Index: ../.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project version=\"4\">\r\n  <component name=\"ProjectRootManager\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/../.idea/misc.xml b/../.idea/misc.xml
+--- a/../.idea/misc.xml	(revision 31d564e57ca30fadd9829d08f2ea6929da0e137f)
++++ b/../.idea/misc.xml	(date 1750025340071)
+@@ -1,5 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_24" project-jdk-name="17" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

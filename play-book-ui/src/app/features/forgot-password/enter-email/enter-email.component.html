@@ -1,0 +1,34 @@
+<div>
+  <form
+    class="w-full flex flex-col items-center justify-center max-w-md mx-auto space-y-6"
+    [formGroup]="emailForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-xl font-bold mb-1">Enter your email.</h1>
+      <span>If your email is registered with us, you'll receive a reset code</span>
+    </div>
+
+    <div class="flex flex-col space-y-2 w-full">
+      <input
+        hlmInput
+        class="w-full border-black"
+        type="text"
+        placeholder="Email"
+        formControlName="email"
+      />
+
+    </div>
+
+    <div class="w-full">
+      <button
+        hlmBtn
+        class="w-full hover:bg-accent hover:text-accent-foreground"
+        type="submit"
+      >
+        Verify
+      </button>
+    </div>
+
+  </form>
+</div>

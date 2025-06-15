@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+section {
+  box-shadow: -8px 4px 6px 0px rgba(117, 117, 117, 0.03),
+  -4px 2px 4px 0px rgba(117, 117, 117, 0.05),
+  -2px 1px 2px 0px rgba(117, 117, 117, 0.08);
+  transition: all 0.3s ease;
+}
+
+section:hover {
+  box-shadow: -12px 6px 8px 0px rgba(117, 117, 117, 0.05),
+  -6px 3px 6px 0px rgba(117, 117, 117, 0.08),
+  -3px 1.5px 3px 0px rgba(117, 117, 117, 0.12);
+}

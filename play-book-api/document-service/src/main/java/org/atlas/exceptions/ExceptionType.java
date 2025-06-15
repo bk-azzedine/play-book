@@ -1,0 +1,23 @@
+package org.atlas.exceptions;
+
+public enum ExceptionType {
+    BAD_REQUEST,
+    UNAUTHORIZED,
+    PAYMENT_REQUIRED,
+    FORBIDDEN,
+    NOT_FOUND,
+    METHOD_NOT_ALLOWED,
+    NOT_ACCEPTABLE,
+    PROXY_AUTHENTICATION_REQUIRED,
+    REQUEST_TIMEOUT,
+    CONFLICT,
+    URI_TOO_LONG,
+    UNSUPPORTED_MEDIA_TYPE,
+    SERVICE_UNAVAILABLE,
+    INTERNAL_SERVER_ERROR,
+
+    GATEWAY_TIMEOUT;
+
+    private ExceptionType() {
+    }
+}

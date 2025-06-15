@@ -1,0 +1,32 @@
+<div class="flex flex-col p-5 space-y-6">
+
+  <div>
+
+  </div>
+
+  <div class="flex flex-col space-y-8">
+    <div>
+
+      <div class="flex flex-row justify-between items-center">
+        <span class="text-black text-lg font-bold">Draft documents</span>
+        <div class="flex flex-row space-x-4">
+
+          <button hlmBtn variant="default"
+                  class="w-24 h-8 hover:bg-accent hover:text-accent-foreground flex flex-row space-x-2"
+                  (click)="create()">
+            <ng-icon name="lucidePlus" size="17" strokeWidth="4"></ng-icon>
+            <span class="text-bg-primary font-medium relative bottom-0.5">Create</span>
+          </button>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <app-doc-card *ngFor="let doc of docs" [documentSignal]="doc" [heightSignal]="80" [widthSignal]="64" (click)="view(doc.id)"></app-doc-card>
+    </div>
+
+  </div>
+
+</div>

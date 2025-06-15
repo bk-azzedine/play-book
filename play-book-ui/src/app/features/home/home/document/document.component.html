@@ -1,0 +1,323 @@
+<div class="flex flex-col w-full h-full">
+  <hlm-toaster  />
+  <div class="flex flex-col lg:flex-row w-full h-full">
+
+    <!-- Left Section: Full width on mobile, 2/3 on desktop (Breadcrumbs + Main content) -->
+    <div [ngClass]="{
+      'w-full': true,
+      'lg:w-full': !editorState,
+      'lg:w-2/3': editorState
+    }"
+         class="flex flex-col pt-4 lg:pt-10 px-4 lg:pl-5 lg:pr-3 space-y-4 lg:space-y-8">
+      <!-- Breadcrumbs - hidden on small screens -->
+      <nav hlmBreadcrumb class="hidden sm:flex">
+        <ol hlmBreadcrumbList>
+          <li hlmBreadcrumbItem>
+            <a hlmBreadcrumbLink link="/home" class="text-black font-medium">Home</a>
+          </li>
+          <li hlmBreadcrumbSeparator></li>
+          <li hlmBreadcrumbItem [brnMenuTriggerFor]="breadcrumbDropdown">
+            <div class="flex items-center gap-1">
+              <a hlmBreadcrumbLink class="text-black font-medium">
+                {{ selectedSpace ? selectedSpace.name : 'Spaces' }}
+              </a>
+              <ng-icon hlm size="sm" name="lucideChevronDown"/>
+            </div>
+          </li>
+          <li hlmBreadcrumbSeparator></li>
+          <ng-container *ngIf="!isEditing">
+    <span hlmBreadcrumbPage class="text-black font-medium "
+          (dblclick)="startEditing()">
+      {{ documentEdit.title }}
+    </span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditing">
+            <input
+              #titleInput
+              hlmInput
+              type="text"
+              class="w-auto min-w-[100px] max-w-[300px] h-6 rounded-sm focus:outline-none px-1 py-0.5 text-sm text-black font-medium border border-input"
+              [(ngModel)]="documentEdit.title"
+              (blur)="saveTitle()"
+              (keydown)="onKeyDown($event)"
+              placeholder="Enter document title"
+            />
+          </ng-container>
+        </ol>
+
+      </nav>
+      <!-- Main content -->
+      <div class="flex-grow">
+        <div class="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0">
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2">
+              <ng-icon name="bootstrapClock"></ng-icon>
+              <span class="text-sm pb-0.5">4 min</span>
+            </div>
+
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+
+            <div class="flex items-center -space-x-2">
+              <ng-container *ngFor="let author of authors; let i = index">
+                <div
+                  class="rounded-full w-6 h-6 flex items-center justify-center text-white font-bold text-xs"
+                  [class]="author.color"
+                  [style.z-index]="authors.length - i">
+                  {{ author.initials }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <div *ngIf="editorState"
+                 class="flex items-center space-x-1 hover:cursor-pointer hover:underline"
+                 (click)="editOrPreview(false)">
+              <ng-icon name="heroEye" strokeWidth="2.5"></ng-icon>
+              <span class="text-sm pb-1 hidden sm:inline font-medium">preview</span>
+            </div>
+
+
+            <div *ngIf="!editorState"
+                 class="flex items-center space-x-1 hover:cursor-pointer hover:underline"
+                 (click)="editOrPreview(true)">
+              <ng-icon name="lucideSquarePen" strokeWidth="2.5"></ng-icon>
+              <span class="text-sm pb-1 hidden sm:inline font-medium">edit</span>
+            </div>
+
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+            <div>
+              <ng-icon name="bootstrapCloud"></ng-icon>
+            </div>
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+            <button hlmBtn variant="default"
+                    class="hover:bg-accent hover:text-accent-foreground flex items-center justify-center h-8 w-20"
+                    (click)="saveEditorContent()">
+              <span class="font-medium">Save</span>
+            </button>
+            <brn-separator hlmSeparator orientation="vertical" class="h-4 hidden sm:block"
+                           decorative="true"></brn-separator>
+            <button hlmBtn class="flex items-center gap-3 p-3 rounded-md hover:bg-secondary cursor-pointer transition-colors  bg-background" [brnMenuTriggerFor]="documentMenu">
+              <ng-icon name="featherMoreVertical" size="20" class="text-black"></ng-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 lg:mt-8">
+          <!-- EditorJS container -->
+          <div id="editorjs" class="min-h-[300px]"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Desktop Right Section: 1/3 - hidden on small screens, visible on large screens -->
+    <div
+      *ngIf="editorState"
+      class="w-full lg:w-1/3 lg:flex hidden fixed bottom-0 lg:static bg-[#F1F0FC] flex-col shadow-['-160px_160px_63px_0px_rgba(241,_240,_252,_0.01),_-102px_102px_58px_0px_rgba(241,_240,_252,_0.07),_-57px_57px_49px_0px_rgba(241,_240,_252,_0.25),_-26px_26px_36px_0px_rgba(241,_240,_252,_0.43),_-6px_6px_20px_0px_rgba(241,_240,_252,_0.49)'] max-h-full overflow-y-auto z-30">
+
+      <div class="flex justify-center flex-row space-x-2 w-full mb-3 pt-4">
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-1 px-2 py-1"
+                [class.bg-secondary]="activeTab === 'metadata'"
+                (click)="setActiveTab('metadata')">
+          <ng-icon name="lucideDatabase" size="16"></ng-icon>
+          <span class="font-medium text-sm">Meta data</span>
+        </button>
+
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-1 px-2 py-1"
+                [class.bg-secondary]="activeTab === 'toc'"
+                (click)="setActiveTab('toc')">
+          <ng-icon name="lucideList" size="16"></ng-icon>
+          <span class="font-medium text-sm">Table of contents</span>
+        </button>
+
+        <button hlmBtn variant="ghost" class="hover:bg-secondary flex items-center space-x-1 px-2 py-1"
+                [class.bg-secondary]="activeTab === 'comments'"
+                (click)="setActiveTab('comments')">
+          <ng-icon name="bootstrapChat" size="16"></ng-icon>
+          <span class="font-medium text-sm">Comments</span>
+        </button>
+      </div>
+
+      <div class="flex-grow flex flex-col items-center justify-start text-center px-4 py-6 space-y-6"
+           *ngIf="activeTab === 'metadata'">
+
+        <div class="w-full max-w-md flex flex-col  space-y-3">
+          <p class="mb-2 text-black font-medium text-left">Tags:</p>
+
+          <div class="mb-2 min-h-[30px] w-full flex flex-wrap gap-x-2 gap-y-1.5 items-center justify-start py-1"
+               [class.pb-2]="documentEdit.tags && documentEdit.tags.length > 0">
+            <ng-container *ngIf="documentEdit.tags && documentEdit.tags.length > 0; else noTagsYet">
+          <span hlmBadge *ngFor="let tag of documentEdit.tags"
+                class="bg-slate-200 text-slate-700 text-xs font-semibold py-1 px-2.5 rounded-full hover:bg-secondary cursor-pointer items-center whitespace-nowrap">
+            {{ tag }}
+            <button (click)="removeTag(tag)" type="button"
+                    class="ml-1.5 -mr-0.5 text-slate-400  focus:outline-none flex items-center justify-center h-4 w-4 rounded-full"
+                    attr.aria-label="Remove tag {{tag}}">
+              <ng-icon name="lucideX" size="12"></ng-icon> </button>
+          </span>
+            </ng-container>
+            <ng-template #noTagsYet>
+              <span class="text-xs text-gray-400 italic pl-1">No tags added yet.</span>
+            </ng-template>
+          </div>
+
+          <input
+            #tagsInputEl
+            hlmInput
+            type="text"
+            class="w-full h-11 bg-background"
+            [(ngModel)]="tagsInputString"
+            (keydown)="handleTagsKeyDown($event)"
+            (blur)="addTagsOnBlur()"
+            placeholder="Type tags, separate with comma or Enter"
+          />
+          <p class="text-xs text-gray-500 mt-1 text-left">Add one or more tags. Press Enter or comma to add. Esc to
+            clear input.</p>
+        </div>
+
+        <div class="w-full max-w-md">
+          <p class="mb-2 text-black font-medium text-left">Description:</p>
+          <ng-container *ngIf="!isDescriptionEditing">
+            <div
+              class="min-h-[100px] w-full h-full"
+              (dblclick)="startDescriptionEditing()" tabindex="0" (keydown.enter)="startDescriptionEditing()">
+
+              <p
+                class="text-slate-700 w-full h-full border border-input rounded-md bg-background font-normal text-left pl-3 pt-1"
+                *ngIf="documentEdit.description; else noDescription">
+                {{ documentEdit.description }}
+              </p>
+
+              <ng-template #noDescription>
+                <p
+                  class="text-muted-foreground w-full h-full border border-input rounded-md bg-background font-normal text-sm  text-left pl-4 pt-1">
+                  Double-click to add a description
+                </p>
+              </ng-template>
+
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="isDescriptionEditing">
+        <textarea
+          #descriptionInputEl
+          hlmInput
+          class="w-full h-[120px] min-h-[100px] bg-background "
+          [(ngModel)]="descriptionInputString"
+          (blur)="saveDescription()"
+          (keydown)="handleDescriptionKeyDown($event)"
+          placeholder="Enter a document description"></textarea>
+            <p class="text-xs text-gray-500 mt-1 text-left">Click away to save. Esc to cancel.</p>
+          </ng-container>
+        </div>
+      </div>
+
+
+      <div class="flex-grow w-full overflow-y-auto px-4 pt-2" *ngIf="activeTab === 'toc'">
+        <div
+          [ngClass]="{
+      'items-center text-center justify-center': !headers || headers.length === 0,
+      'items-start text-left': headers && headers.length > 0
+    }"
+          class="flex flex-col w-full">
+          <ng-container *ngIf="!headers || headers.length === 0">
+            <div>
+              <div class="mb-3">
+                <ng-icon name="bootstrapClipboard" size="32"></ng-icon>
+              </div>
+              <p class="mb-1 text-sm sm:text-base">You don't have any content yet, write something, use</p>
+              <p class="text-sm sm:text-base">headers to easily navigate through it</p>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="headers && headers.length > 0">
+            <ul class="list-none p-0 m-0 text-left">
+              <li
+                *ngFor="let h of headers; let i = index"
+                class="mb-2 leading-snug"
+              >
+                <a
+                  [href]="'#' + h.header | lowercase | replace:' ':'-'"
+                  class="flex items-center no-underline py-1.5 rounded-md transition-colors duration-200 text-sm hover:bg-gray-100"
+                  [ngClass]="{
+          'px-2 text-black font-semibold': h.level === 1 && i !== 0,
+          'pl-6 pr-2 text-black font-semibold': h.level === 2,
+          'pl-10 pr-2 text-black font-semibold': h.level >= 3
+        }"
+                >
+        <span class="text-gray-400 mr-2 text-xs min-w-4 text-right">
+          {{ getHeadingNumber(i) }}
+        </span>
+                  {{ h.header }}
+                </a>
+              </li>
+            </ul>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="flex-grow flex flex-col items-center justify-center text-center px-4"
+           *ngIf="activeTab === 'comments'">
+        <div class="mb-4">
+          <ng-icon name="bootstrapChat" size="48"></ng-icon>
+        </div>
+        <p class="mb-1">There are no comments yet</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #breadcrumbDropdown>
+  <hlm-menu class="border-none p-4 bg-[#F1F0FC] rounded-md shadow-lg min-w-48 dropdown-animation">
+    <div>
+      <div class="space-y-3">
+        <div *ngFor="let space of spaces; let i = index"
+             class="flex items-center gap-3 menu-item cursor-pointer hover:bg-slate-100 p-2 rounded"
+             [style.animation-delay]="(i * 50) + 'ms'"
+             (click)="selectSpace(space)">
+          <span>{{ space.name }}</span>
+        </div>
+        <div *ngIf="spaces?.length === 0" class="text-gray-500 py-2">
+          No spaces available
+        </div>
+      </div>
+    </div>
+  </hlm-menu>
+</ng-template>
+
+<ng-template #documentMenu>
+  <hlm-menu class="p-4 bg-[#F1F0FC] rounded-md shadow-lg min-w-48 border-none dropdown-animation">
+    <div >
+      <button
+        class="user-menu-item flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded"
+        (click)="toggleDraft()">
+        <div class="flex items-center w-full">
+          <div class="icon-container flex items-center justify-center mr-3">
+            <ng-icon name="heroPencilSquare" size="20"/>
+          </div>
+          <span class="user-menu-text">
+            {{ documentEdit.draft ? 'Mark As Published' : 'Mark As Draft' }}
+          </span>
+        </div>
+      </button>
+      <button
+        class="user-menu-item flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded"
+        (click)="toggleFavorite()">
+        <div class="flex items-center w-full">
+          <div class="icon-container flex items-center justify-center mr-3">
+            <ng-icon name="heroHeart" size="20"/>
+          </div>
+          <span class="user-menu-text">
+            {{ documentEdit.favorite ? 'Remove From Favorites' : 'Mark As Favorite' }}
+          </span>
+        </div>
+      </button>
+    </div>
+  </hlm-menu>
+</ng-template>

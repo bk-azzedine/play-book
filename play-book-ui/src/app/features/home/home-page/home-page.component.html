@@ -1,0 +1,18 @@
+<div class="flex h-screen overflow-hidden">
+  <!-- Sidebar -->
+  <app-side class="flex-shrink-0"></app-side>
+
+  <!-- Content -->
+  <div class="flex flex-1 flex-col min-w-0">
+    <!-- Header -->
+    <app-nav class="h-14 flex-shrink-0"></app-nav>
+
+    <!-- Main scrollable content -->
+    <main   class="flex-1  overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <div>
+    <app-chat-window></app-chat-window>
+  </div>
+</div>

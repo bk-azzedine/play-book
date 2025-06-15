@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9ce54350-4162-4153-bfd4-1adca8f012ef" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/enums/CodeType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/requests/ForgotPasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/requests/PasswordValidationCodeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/requests/ResetPasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/responses/ForgotPassResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/responses/ValidateCodeResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/resources/migration/V5__ALTER_TOKEN_TABLE.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../auth-service/src/main/resources/migration/V7__ALTER_ACTIVATION_CODE_TABLE.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chat_service/celery.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/embed_service/view_docs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generate_service/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generate_service/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker-containers/docker" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker-containers/ollama.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/configs/RabbitMQConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/enums/RoutingKeys.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/ApiExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/Exception.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/ExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/ExceptionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/ExceptionType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/exceptions/Exceptions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/interfaces/DocumentPublishServiceInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/listners/Listener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/messages/DocumentMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/services/DocumentPublishService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../email-service/src/main/resources/templates/forgot_password.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/controllers/SpaceController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/UserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/enums/SpaceVisibility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/MemberRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/SpaceMemberRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/SpaceUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V8__SPACE_EDIT_1.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/pipes/header.pipe.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/requests/document.request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/requests/space-members.request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/requests/space-update.request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/requests/space.request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/document/document.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/document/document.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/document/document.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/space.actions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/space.effect.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/enums/space-privilges.enum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/enums/space-visibility.enum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/enums/team-role.enum.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/java/org/atlas/services/RouteValidatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/java/org/atlas/services/RouteValidatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/configs/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/configs/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/entities/ActivationCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/entities/Codes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/entities/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/entities/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/exceptions/Exceptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/exceptions/Exceptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/ActivationServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/CodeServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/AuthServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/AuthServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/repositories/ActivationCodeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/repositories/CodesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/repositories/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/repositories/TokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/ActivationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/CodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/CustomUserServiceDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/CustomUserServiceDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../auth-service/src/main/java/org/atlas/services/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-files/data-bases.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-containers/data-bases.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-files/docker" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-files/mail-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-containers/mail-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-files/rabbit-MQ.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-containers/rabbit-MQ.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-files/zip-kin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-containers/zip-kin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/controllers/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/controllers/DocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/dtos/DocumentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/dtos/DocumentDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/entities/DocumentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/entities/DocumentEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/interfaces/DocumentServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/interfaces/DocumentServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/repository/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/repository/DocumentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/services/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/java/org/atlas/services/DocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../document-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/enums/Template.java" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/enums/Template.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/interfaces/EmailServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/interfaces/EmailServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/listners/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/listners/Listener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/src/main/java/org/atlas/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../logs/application.log" beforeDir="false" afterPath="$PROJECT_DIR$/../logs/application.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../logs/archived/application-2025-05-03.0.log.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../logs/archived/application-2025-05-06.0.log.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../logs/archived/application-2025-05-07.0.log.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/controllers/OrganizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/controllers/OrganizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/OrganizationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/OrganizationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/SpaceDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/SpaceDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/SpaceMembersDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/SpaceMembersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/TeamMembersDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/dtos/TeamMembersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/entities/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/entities/Space.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/entities/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/entities/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/enums/RoutingKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/enums/RoutingKeys.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/exceptions/Exceptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/exceptions/Exceptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/CompanyServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/CompanyServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/SpaceServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/SpaceServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/OrganizationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/OrganizationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/SpaceMembersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/SpaceMembersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/TeamMembersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/repositories/TeamMembersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/SpaceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/SpaceRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/TeamRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/requests/TeamRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/SpaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/SpaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/TeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/java/org/atlas/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V1__ORGANIZATIONS__TABLE.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V1__ORGANIZATIONS__TABLE.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V2__TEAMS__TABLE.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V2__TEAMS__TABLE.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V3__SPACES__TABLE.SQL" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V3__SPACES__TABLE.SQL" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V4__TEAM_MEMBERS__TABLE.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V4__TEAM_MEMBERS__TABLE.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V5__SPACE_MEMBERS_TABLE.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V5__SPACE_MEMBERS_TABLE.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V6__TEAM_INVITES_TABLE.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../organization-service/src/main/resources/migration/V6__TEAM_INVITES_TABLE.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/interfaces/UserServiceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/services/UserPublishService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/services/UserPublishService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/src/main/java/org/atlas/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/interceptors/auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/interceptors/auth.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/comm/comm.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/comm/comm.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/company/company.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/company/company.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/document/document.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/document/document.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/team/team.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/team/team.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/core/services/user/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/choose-organization/choose-organization-page/choose-organization-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/choose-organization/choose-organization-page/choose-organization-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/choose-organization/choose-organization-page/choose-organization-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/choose-organization/choose-organization-page/choose-organization-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home-page/home-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home-page/home-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home-page/home-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home-page/home-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/create-document/create-document.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/embed_service/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/create-document/create-document.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/create-document/create-document.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/create-document/create-document.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/space-menu/space-menu.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/space-menu/space-menu.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/space-menu/space-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/space-menu/space-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/team-menu/team-menu.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/team-menu/team-menu.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/team-menu/team-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/components/team-menu/team-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/nav.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/nav.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/nav.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/nav/nav.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/components/doc-card/doc-card.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/components/doc-card/doc-card.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/components/doc-card/doc-card.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/components/doc-card/doc-card.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/recent-documents.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/recent-documents.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/recent-documents.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/recent-documents/recent-documents.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/side/side.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/side/side.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/side/side.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/side/side.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/view-document/view-document.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/embed_service/vectorstore_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/view-document/view-document.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/view-document/view-document.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/document/document.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/home/home/view-document/view-document.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-form/login-form.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-form/login-form.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-form/login-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-form/login-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-page/login-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-page/login-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-page/login-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/login/login-page/login-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-company/onboarding-company.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-company/onboarding-company.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-finished/onboarding-finished.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-team-invites/onboarding-teams-invite.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-teams/onboarding-teams.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-teams/onboarding-teams.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-teams/onboarding-teams.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/features/onboarding/onboarding-components/onboarding-teams/onboarding-teams.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/shared/services/http.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/shared/services/http.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/auth.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/auth.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/company.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/company.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/document.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/document.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/router.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/router.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/team.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/actions/team.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/auth.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/auth.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/company.effect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/company.effect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/document.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/document.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/router.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/router.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/team.effect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/effects/team.effect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/Space.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/Space.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/company.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/company.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/document.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/document.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/space-members.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/space-members.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/team-members.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/team-members.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/team.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/models/team.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/reducers/company.reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/reducers/company.reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/reducers/document.reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/reducers/document.reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/company.selector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/company.selector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/document.selector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/document.selector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/teams.selector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/app/store/selectors/teams.selector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/app/types/editorjs-text-color-plugin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/src/assets/libs/ui-sonner-helm/src/lib/hlm-toaster.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/src/assets/libs/ui-sonner-helm/src/lib/hlm-toaster.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../play-book-ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../play-book-ui/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2xmaiboL5Q3JTbBQroMeX38sbZF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/ASUS/Desktop/StartupShit/play-book/play-book-api/chat_service/embed_service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\StartupShit\play-book\play-book-api\chat_service\embed_service" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\StartupShit\play-book\play-book-api\chat_service\chat_service" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="chat_service" type="Python.DjangoServer" factoryName="Django server">
+      <module name="chat_service" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ce54350-4162-4153-bfd4-1adca8f012ef" name="Changes" comment="" />
+      <created>1748545832858</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748545832858</updated>
+      <workItem from="1748545862475" duration="2170000" />
+      <workItem from="1748548071851" duration="17674000" />
+      <workItem from="1748618266309" duration="2459000" />
+      <workItem from="1748624324156" duration="593000" />
+      <workItem from="1748629110261" duration="6803000" />
+      <workItem from="1748688081412" duration="613000" />
+      <workItem from="1748691322528" duration="4306000" />
+      <workItem from="1748717036527" duration="8149000" />
+      <workItem from="1748775155880" duration="1164000" />
+      <workItem from="1749493398443" duration="9012000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

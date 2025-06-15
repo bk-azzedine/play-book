@@ -1,0 +1,391 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.6.4",
+  "pathMappings": {
+    "@spartan-ng/ui-input-helm": [
+      ".\\src/assets/libs/ui-input-helm/src/index.ts"
+    ],
+    "@spartan-ng/ui-formfield-helm": [
+      ".\\src/assets/libs/ui-formfield-helm/src/index.ts"
+    ],
+    "@spartan-ng/ui-label-helm": [
+      ".\\src/assets/libs/ui-label-helm/src/index.ts"
+    ],
+    "@spartan-ng/ui-button-helm": [
+      ".\\src/assets/libs/ui-button-helm/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "play-book-ui": [
+        {
+          "file": ".editorconfig",
+          "hash": "8037249353422744134"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "10175894702052279752"
+        },
+        {
+          "file": "README.md",
+          "hash": "13428456561259464202"
+        },
+        {
+          "file": "angular.json",
+          "hash": "2464799623070756096"
+        },
+        {
+          "file": "components.json",
+          "hash": "6362791498928861973"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "14493012365099650102"
+        },
+        {
+          "file": "package.json",
+          "hash": "4048871719223304803",
+          "deps": [
+            "npm:@angular-devkit/build-angular",
+            "npm:@angular/cli",
+            "npm:@angular/compiler-cli",
+            "npm:@nx/angular",
+            "npm:@spartan-ng/cli",
+            "npm:@types/jasmine",
+            "npm:autoprefixer",
+            "npm:jasmine-core",
+            "npm:karma",
+            "npm:karma-chrome-launcher",
+            "npm:karma-coverage",
+            "npm:karma-jasmine",
+            "npm:karma-jasmine-html-reporter",
+            "npm:postcss",
+            "npm:tailwind-merge",
+            "npm:tailwindcss",
+            "npm:tailwindcss-animate",
+            "npm:typescript",
+            "npm:@angular/cdk",
+            "npm:@angular/common",
+            "npm:@angular/compiler",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/platform-browser",
+            "npm:@angular/platform-browser-dynamic",
+            "npm:@angular/router",
+            "npm:@module-federation/enhanced",
+            "npm:@module-federation/node",
+            "npm:@spartan-ng/brain",
+            "npm:class-variance-authority",
+            "npm:clsx",
+            "npm:rxjs",
+            "npm:tslib",
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "3988961587069885523"
+        },
+        {
+          "file": "src/app/app.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/app.component.html",
+          "hash": "14606063284684242883"
+        },
+        {
+          "file": "src/app/app.component.spec.ts",
+          "hash": "11044686838209898698",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/app.component.ts",
+          "hash": "9818920674953869050",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/app.config.ts",
+          "hash": "16561019206697382666",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/app.routes.ts",
+          "hash": "809736233805555256",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/features/login/login-form/login-form.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/features/login/login-form/login-form.component.html",
+          "hash": "13092310625722279039"
+        },
+        {
+          "file": "src/app/features/login/login-form/login-form.component.spec.ts",
+          "hash": "3223097010011537794",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/login/login-form/login-form.component.ts",
+          "hash": "8245466480627147236",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/login/login-page/login-page.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/features/login/login-page/login-page.component.html",
+          "hash": "8558823199401008041"
+        },
+        {
+          "file": "src/app/features/login/login-page/login-page.component.spec.ts",
+          "hash": "610095280686534562",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/login/login-page/login-page.component.ts",
+          "hash": "7903832685311511345",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/register/sign-in-form/sign-in-form.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/features/register/sign-in-form/sign-in-form.component.html",
+          "hash": "8006759350825299561"
+        },
+        {
+          "file": "src/app/features/register/sign-in-form/sign-in-form.component.spec.ts",
+          "hash": "10730298326626020863",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/register/sign-in-form/sign-in-form.component.ts",
+          "hash": "10993516129354374075",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/register/sign-in-page/sign-in-page.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/features/register/sign-in-page/sign-in-page.component.html",
+          "hash": "14860954820840676864"
+        },
+        {
+          "file": "src/app/features/register/sign-in-page/sign-in-page.component.spec.ts",
+          "hash": "16844955450669551778",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/register/sign-in-page/sign-in-page.component.ts",
+          "hash": "9370063566788172919",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/shared/login-register-illustration/login-register-illustration.component.css",
+          "hash": "17467767424747452529"
+        },
+        {
+          "file": "src/app/shared/login-register-illustration/login-register-illustration.component.html",
+          "hash": "17311215274420093952"
+        },
+        {
+          "file": "src/app/shared/login-register-illustration/login-register-illustration.component.spec.ts",
+          "hash": "2556162862756688411",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/shared/login-register-illustration/login-register-illustration.component.ts",
+          "hash": "16254427514870743714",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/fonts/inter.ttf",
+          "hash": "7092351986979172380"
+        },
+        {
+          "file": "src/assets/icons/google.svg",
+          "hash": "16665663068661785469"
+        },
+        {
+          "file": "src/assets/libs/ui-button-helm/src/index.ts",
+          "hash": "17251273102492170138",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-button-helm/src/lib/hlm-button.directive.ts",
+          "hash": "11068329498313394712",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@spartan-ng/brain",
+            "npm:class-variance-authority",
+            "npm:clsx"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-button-helm/src/lib/hlm-button.token.ts",
+          "hash": "7896754714560199098",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-formfield-helm/src/index.ts",
+          "hash": "1379682831294187538",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-formfield-helm/src/lib/form-field.spec.ts",
+          "hash": "9247239904589969713",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@spartan-ng/brain"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-formfield-helm/src/lib/hlm-error.directive.ts",
+          "hash": "8559813530759281347",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-formfield-helm/src/lib/hlm-form-field.component.ts",
+          "hash": "10263304905217156553",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@spartan-ng/brain"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-formfield-helm/src/lib/hlm-hint.directive.ts",
+          "hash": "6215421755390582281",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-input-helm/src/index.ts",
+          "hash": "487913567356772959",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-input-helm/src/lib/hlm-input-error.directive.ts",
+          "hash": "13040471592513364896",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@spartan-ng/brain",
+            "npm:class-variance-authority",
+            "npm:clsx"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-input-helm/src/lib/hlm-input.directive.ts",
+          "hash": "1809643114653750158",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@spartan-ng/brain",
+            "npm:class-variance-authority",
+            "npm:clsx"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-label-helm/src/index.ts",
+          "hash": "11520514252818889827",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/assets/libs/ui-label-helm/src/lib/hlm-label.directive.ts",
+          "hash": "9552035975350433381",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@spartan-ng/brain",
+            "npm:class-variance-authority",
+            "npm:clsx"
+          ]
+        },
+        {
+          "file": "src/index.html",
+          "hash": "9913657825062183369"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "4169901790405087765",
+          "deps": [
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "src/styles.css",
+          "hash": "11818221207341449554"
+        },
+        {
+          "file": "tailwind.config.js",
+          "hash": "8179937920074323068",
+          "deps": [
+            "npm:@spartan-ng/brain"
+          ]
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "14560978611694835822"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "8152231782610764793"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "11023685540591620072"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}

@@ -1,0 +1,177 @@
+<div class="flex flex-col bg-gray-50 min-h-screen">
+  <hlm-toaster/>
+  <div class="flex flex-col ">
+    <div class="flex items-center w-full h-24 pl-10 pr-5">
+      <div class="pt-10 pl-5 pb-0 flex flex-row items-center space-x-5">
+        <ng-icon name="heroUsers" size="25" strokeWidth="2"></ng-icon>
+        <span class="text-black text-xl font-bold">{{ team?.name }}</span>
+      </div>
+      <div class="flex-1 flex justify-center pt-12 ">
+        <button hlmBtn
+                class="flex items-center gap-3 p-3 rounded-md hover:bg-secondary cursor-pointer transition-colors  bg-background"
+                [brnMenuTriggerFor]="addMembersMenu">
+          <ng-icon name="featherMoreVertical" size="20" class="text-gray-500"></ng-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center w-full h-24 pl-20 ">
+      <span class="text-black text-lg font-bold">Members</span>
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-20">
+    <div class="flex flex-col space-y-4 pl-10 pr-5">
+      <div *ngFor="let member of team?.members" class="relative flex items-center justify-between p-4 rounded-lg w-4/6">
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-600 text-white text-lg font-semibold">
+            {{ (member.user.firstName ? member.user.firstName.charAt(0) : '') + (member.user.lastName ? member.user.lastName.charAt(0) : '') | uppercase }}
+          </div>
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">{{ member.user.firstName }} {{ member.user.lastName }}</span>
+            <span class="text-gray-600 text-sm">{{ member.user.email }}</span>
+          </div>
+        </div>
+
+        <!-- Icon positioned at the right edge of the div -->
+        <button hlmBtn class="flex items-center gap-3 p-3 rounded-md hover:bg-secondary cursor-pointer transition-colors  bg-background">
+          <ng-icon name="featherMoreVertical" size="20" class="text-gray-500"></ng-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center w-full h-24 pl-20 ">
+    <span class="text-black text-lg font-bold">Spaces</span>
+  </div>
+  <div class="flex w-full items-center justify-start p-4 pl-8 pb-0">
+    <div class="flex w-full items-center justify-start p-4 pl-8 pb-0 overflow-visible">
+      <hlm-carousel class="w-full overflow-visible">
+        <div class="overflow-visible px-4">
+          <hlm-carousel-content >
+            @for (space of team?.spaces; track space) {
+              <hlm-carousel-item class="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                <app-space-card [spaceSignal]="space" (click)="viewSpace(space.spaceId)"></app-space-card>
+              </hlm-carousel-item>
+            }
+          </hlm-carousel-content>
+        </div>
+        <button hlm-carousel-previous></button>
+        <button hlm-carousel-next></button>
+      </hlm-carousel>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #addMembersMenu>
+  <hlm-menu class="p-4 bg-[#F1F0FC] rounded-md shadow-lg min-w-48 border-none dropdown-animation">
+    <div>
+      <button
+        class="user-menu-item flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded"
+        [brnDialogTriggerFor]="dialog"
+      >
+        <div class="flex items-center w-full">
+          <div class="icon-container flex items-center justify-center mr-3">
+            <ng-icon name="lucidePlus" size="20"/>
+          </div>
+          <span class="user-menu-text">
+           Add people
+          </span>
+        </div>
+      </button>
+    </div>
+  </hlm-menu>
+</ng-template>
+
+<brn-dialog #dialog>
+  <form
+    class="w-full flex flex-col items-center justify-center max-w-md mx-auto space-y-6"
+    [formGroup]="memberForm"
+    (ngSubmit)="inviteMember()"
+  >
+    <hlm-dialog-content *brnDialogContent="let ctx"
+                        class="sm:max-w-xl w-full bg-[#F1F0FC] border-none shadow-lg max-h-[75vh] flex flex-col">
+      <div class="modal-overlay">
+        <div class="invite-modal">
+          <div class="modal-header">
+            <h2 class="modal-title">Invite team members</h2>
+            <p class="modal-subtitle">Add new members to the {{team?.name}} team</p>
+          </div>
+
+          <div class="modal-body">
+            <!-- Email Input Section -->
+            <div class="mb-5">
+              <label class="block text-sm font-medium text-black mb-2">Email Addresses</label>
+
+              <!-- Email Tags Display -->
+              <div class="email-tags mb-3" *ngIf="emails.length > 0">
+                <div class="email-tag" *ngFor="let email of emails">
+                  {{email}}
+                  <button type="button"
+                          class="email-tag-remove"
+                          (click)="removeEmail(email)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Email Input -->
+              <input
+                hlmInput
+                id="email"
+                placeholder="Enter email and press Enter or comma"
+                formControlName="email"
+                (keydown)="onEmailKeydown($event)"
+                (blur)="onEmailBlur()"
+                class="w-full bg-background border border-indigo-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              />
+              <hlm-error *ngIf="memberForm.get('email')?.hasError('email')">Not a valid email.</hlm-error>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="form-group mb-5">
+              <label class="block text-sm font-medium text-black mb-2" for="role">Role</label>
+              <select id="role"
+                      formControlName="role"
+                      class="w-full bg-background border border-indigo-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 px-3 py-2 rounded-md">
+                <option value="MEMBER">Member</option>
+                <option value="ADMIN">Admin</option>
+                <option value="OWNER">Owner</option>
+              </select>
+
+              <!-- Role Info -->
+              <div class="role-info mt-2 flex items-center text-sm text-gray-600">
+                <svg class="role-icon w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                <span class="role-text">{{currentRoleDescription}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer flex gap-3 justify-end">
+            <button type="button"
+                    class="btn btn-secondary px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                    (click)="closeModal()">
+              Cancel
+            </button>
+            <button type="button"
+                    class="btn btn-primary px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    [disabled]="!canSendInvites"
+                    (click)="inviteMember()">
+              <svg class="btn-icon w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Send invitations ({{emails.length}})
+            </button>
+          </div>
+        </div>
+      </div>
+    </hlm-dialog-content>
+  </form>
+</brn-dialog>

@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Ensure buttons are always on top */
+button[class*="absolute"] {
+  z-index: 50 !important;
+}
+
+/* Prevent button overlap on smaller screens */
+@media (max-width: 640px) {
+  .overflow-hidden {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
